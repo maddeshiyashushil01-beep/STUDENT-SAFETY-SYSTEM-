@@ -1,0 +1,62 @@
+/* Login Page Layout */
+.login-card {
+    margin-top: 30px;
+}
+
+.role-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.btn-role {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-role.active {
+    background: #007aff;
+    color: white;
+    border-color: #007aff;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.input-group input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fafafa;
+}
+
+.error-text {
+    color: var(--primary-red);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+    font-weight: bold;
+}
