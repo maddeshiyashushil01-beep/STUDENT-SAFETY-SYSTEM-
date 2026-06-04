@@ -24,7 +24,7 @@ parentBtn.addEventListener('click', () => {
 // Handle Login Submission
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value;
 
@@ -38,9 +38,4 @@ loginForm.addEventListener('submit', (e) => {
     } else {
         errorMsg.innerText = "❌ Invalid ID or Password. Try student123 or parent123 (Password: password)";
     }
-
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    window.location.href = "sos.html";
-});
 });
