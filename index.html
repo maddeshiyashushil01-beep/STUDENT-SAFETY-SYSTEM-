@@ -1,40 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hostel Guard</title>
-    <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Safety System</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header>
-            <h1>🔐 Secure Gateway</h1>
-            <p>Hostel Guard Safety System</p>
-        </header>
 
-        <section class="card login-card">
-            <h3>Choose Your Role</h3>
-            <div class="role-selector">
-                <button id="roleStudent" class="btn-role active">🧑‍🎓 Student</button>
-                <button id="roleParent" class="btn-role">👪 Parent</button>
-            </div>
+  <h1>Student Safety & Emergency Alert System</h1>
 
-            <form id="loginForm" class="login-form">
-                <div class="input-group">
-                    <label for="username">User ID / Mobile</label>
-                    <input type="text" id="username" placeholder="Enter your ID or Phone" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter Password" required>
-                </div>
-                <button type="submit" class="btn-secondary">Access Dashboard</button>
-            </form>
-            <p id="errorMsg" class="error-text"></p>
-        </section>
-    </div>
+  <p>Welcome to the Student Safety Platform.</p>
 
-    <script src="login.js"></script>
+  <button onclick="showSOS()">SOS Emergency</button>
+
+  <p id="msg"></p>
+
+  <script src="script.js"></script>
 </body>
 </html>
