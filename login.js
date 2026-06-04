@@ -38,4 +38,9 @@ loginForm.addEventListener('submit', (e) => {
     } else {
         errorMsg.innerText = "❌ Invalid ID or Password. Try student123 or parent123 (Password: password)";
     }
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    window.location.href = "sos.html";
+});
 });
