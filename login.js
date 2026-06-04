@@ -1,26 +1,3 @@
-let currentRole = 'student';
-
-const studentBtn = document.getElementById('roleStudent');
-const parentBtn = document.getElementById('roleParent');
-const loginForm = document.getElementById('loginForm');
-const errorMsg = document.getElementById('errorMsg');
-
-// Toggle to Student Role
-studentBtn.addEventListener('click', () => {
-    currentRole = 'student';
-    studentBtn.classList.add('active');
-    parentBtn.classList.remove('active');
-    errorMsg.innerText = "";
-});
-
-// Toggle to Parent Role
-parentBtn.addEventListener('click', () => {
-    currentRole = 'parent';
-    parentBtn.classList.add('active');
-    studentBtn.classList.remove('active');
-    errorMsg.innerText = "";
-});
-
 // Handle Login Submission
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -28,13 +5,13 @@ loginForm.addEventListener('submit', (e) => {
     const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value;
 
-    // Static credentials for prototype testing with GitHub Pages subfolder fix
+    // Relative paths without the leading slash
     if (currentRole === 'student' && user === 'student123' && pass === 'password') {
         localStorage.setItem('userRole', 'student');
-        window.location.href = '/STUDENT-SAFETY-SYSTEM-/index.html'; 
+        window.location.href = 'index.html'; 
     } else if (currentRole === 'parent' && user === 'parent123' && pass === 'password') {
         localStorage.setItem('userRole', 'parent');
-        window.location.href = '/STUDENT-SAFETY-SYSTEM-/parent.html'; 
+        window.location.href = 'parent.html'; 
     } else {
         errorMsg.innerText = "❌ Invalid ID or Password. Try student123 or parent123 (Password: password)";
     }
