@@ -70,3 +70,9 @@ function triggerAlert(phone, lat, lon) {
     // Open communication gateway immediately
     window.location.href = alertUrl;
 }
+
+
+function showSOS() {
+    document.getElementById("msg").innerHTML =
+    "Emergency Alert Sent Successfully!";
+}
