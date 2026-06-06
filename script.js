@@ -123,3 +123,22 @@ function logout() {
     window.location.href =
     "index.html";
 }
+
+
+
+function getLocation() {
+
+    navigator.geolocation.getCurrentPosition(
+        function(position){
+
+            document.getElementById(
+            "location").innerText =
+
+            "Latitude: " +
+            position.coords.latitude +
+
+            " Longitude: " +
+            position.coords.longitude;
+        }
+    );
+}
