@@ -85,3 +85,17 @@ function showSOS() {
     document.getElementById("msg").innerHTML =
     "Emergency Alert Sent Successfully!";
 }
+
+function saveContact() {
+
+    const name =
+    document.getElementById("contactName").value;
+
+    const number =
+    document.getElementById("contactNumber").value;
+
+    localStorage.setItem("parentName", name);
+    localStorage.setItem("parentNumber", number);
+
+    alert("Contact Saved");
+}
