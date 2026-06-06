@@ -1,11 +1,14 @@
-// Handle Login Submission
+// Get references to form and error message
+const loginForm = document.getElementById('loginForm');
+const errorMsg = document.getElementById('errorMsg');
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value;
+    const currentRole = document.getElementById('role').value; // dropdown role
 
-    // Relative paths without the leading slash
     if (currentRole === 'student' && user === 'student123' && pass === 'password') {
         localStorage.setItem('userRole', 'student');
         window.location.href = 'index.html'; 
