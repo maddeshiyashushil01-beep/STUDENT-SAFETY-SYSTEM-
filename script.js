@@ -72,6 +72,15 @@ function triggerAlert(phone, lat, lon) {
 }
 
 
+const sosBtn = document.getElementById("sosBtn");
+
+sosBtn.addEventListener("click", () => {
+    document.getElementById("status").innerText =
+    "🚨 Emergency Alert Sent Successfully!";
+});
+
+
+
 function showSOS() {
     document.getElementById("msg").innerHTML =
     "Emergency Alert Sent Successfully!";
