@@ -113,3 +113,13 @@ function submitComplaint() {
 
     alert("Complaint Submitted");
 }
+
+
+
+function logout() {
+
+    localStorage.clear();
+
+    window.location.href =
+    "index.html";
+}
