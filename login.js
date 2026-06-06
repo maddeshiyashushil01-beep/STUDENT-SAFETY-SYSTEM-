@@ -1,31 +1,12 @@
-// Get references
 const loginForm = document.getElementById('loginForm');
 const errorMsg = document.getElementById('errorMsg');
-let currentRole = 'student'; // default role
 
-// Role selector buttons
-const roleStudentBtn = document.getElementById('roleStudent');
-const roleParentBtn = document.getElementById('roleParent');
-
-// Handle role switching
-roleStudentBtn.addEventListener('click', () => {
-    currentRole = 'student';
-    roleStudentBtn.classList.add('active');
-    roleParentBtn.classList.remove('active');
-});
-
-roleParentBtn.addEventListener('click', () => {
-    currentRole = 'parent';
-    roleParentBtn.classList.add('active');
-    roleStudentBtn.classList.remove('active');
-});
-
-// Handle login form submission
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value;
+    const currentRole = document.getElementById('role').value;
 
     if (currentRole === 'student' && user === 'student123' && pass === 'password') {
         localStorage.setItem('userRole', 'student');
