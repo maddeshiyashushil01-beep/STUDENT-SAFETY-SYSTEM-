@@ -99,3 +99,17 @@ function saveContact() {
 
     alert("Contact Saved");
 }
+
+
+function submitComplaint() {
+
+    const complaint =
+    document.getElementById("complaint").value;
+
+    localStorage.setItem(
+        "complaint",
+        complaint
+    );
+
+    alert("Complaint Submitted");
+}
