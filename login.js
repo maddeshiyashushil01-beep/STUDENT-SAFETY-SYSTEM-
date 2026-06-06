@@ -8,13 +8,22 @@ loginForm.addEventListener('submit', (e) => {
     const pass = document.getElementById('password').value;
     const currentRole = document.getElementById('role').value;
 
-    if (currentRole === 'student' && user === 'student123' && pass === 'password') {
+    if (currentRole === 'student' &&
+        user === 'student123' &&
+        pass === 'password') {
+
         localStorage.setItem('userRole', 'student');
-        window.location.href = 'index.html'; 
-    } else if (currentRole === 'parent' && user === 'parent123' && pass === 'password') {
+        window.location.href = 'sos.html';
+
+    } else if (currentRole === 'parent' &&
+               user === 'parent123' &&
+               pass === 'password') {
+
         localStorage.setItem('userRole', 'parent');
-        window.location.href = 'parent.html'; 
+        window.location.href = 'sos.html';
+
     } else {
-        errorMsg.innerText = "❌ Invalid ID or Password. Try student123 or parent123 (Password: password)";
+        errorMsg.innerText =
+        "❌ Invalid ID or Password";
     }
 });
