@@ -1,92 +1,134 @@
-// Load configuration on startup
+import { db } from "./firebase.js";
+
+import {
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Load saved phone
 document.addEventListener("DOMContentLoaded", () => {
-    const savedPhone = localStorage.getItem("emergencyPhone");
+
+    const savedPhone =
+    localStorage.getItem("emergencyPhone");
+
     if (savedPhone) {
-        document.getElementById("contactPhone").value = savedPhone;
+        const phoneField =
+        document.getElementById("contactPhone");
+
+        if (phoneField) {
+            phoneField.value = savedPhone;
+        }
     }
 });
 
-// Save contact function
-document.getElementById("saveConfigBtn").addEventListener("click", () => {
-    const phone = document.getElementById("contactPhone").value.trim();
-    if (phone) {
-        localStorage.setItem("emergencyPhone", phone);
-        alert("🚨 Emergency contact updated successfully!");
-    } else {
-        alert("Please enter a valid phone number.");
-    }
-});
+// Save Emergency Contact
+const saveBtn =
+document.getElementById("saveConfigBtn");
 
-// Primary Panic Click Trigger
-document.getElementById("sosBtn").addEventListener("click", () => {
-    const phone = localStorage.getItem("emergencyPhone");
-    if (!phone) {
-        alert("Please configure and save an emergency phone number first!");
-        return;
-    }
+if (saveBtn) {
 
-    const statusText = document.getElementById("statusLocation");
-    statusText.innerText = "Fetching precise GPS location...";
+    saveBtn.addEventListener("click", () => {
 
-    // Use Web Geolocation API
-    if (navigator.geolocation) {
+        const phone =
+        document.getElementById("contactPhone").value.trim();
+
+        if (phone) {
+
+            localStorage.setItem(
+                "emergencyPhone",
+                phone
+            );
+
+            alert("✅ Emergency Contact Saved");
+
+        } else {
+
+            alert("Enter valid phone number");
+
+        }
+    });
+}
+
+// SOS Button
+const sosBtn =
+document.getElementById("sosBtn");
+
+if (sosBtn) {
+
+    sosBtn.addEventListener("click", () => {
+
+        const phone =
+        localStorage.getItem("emergencyPhone");
+
+        if (!phone) {
+
+            alert(
+            "Please save emergency phone number first"
+            );
+
+            return;
+        }
+
+        const statusLocation =
+        document.getElementById("statusLocation");
+
+        if (statusLocation) {
+            statusLocation.innerText =
+            "📍 Getting Location...";
+        }
+
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                statusText.innerText = `Location verified!`;
-                
-                triggerAlert(phone, lat, lon);
+
+            async function(position) {
+
+                const lat =
+                position.coords.latitude;
+
+                const lon =
+                position.coords.longitude;
+
+                try {
+
+                    const emergencyType =
+                    document.querySelector(
+                    'input[name="emergencyType"]:checked'
+                    )?.value || "Emergency";
+
+                    await addDoc(
+                        collection(db, "sos_alerts"),
+                        {
+                            emergency: emergencyType,
+                            phone: phone,
+                            latitude: lat,
+                            longitude: lon,
+                            createdAt: new Date()
+                        }
+                    );
+
+                    let message =
+                    `🚨 SOS ALERT! Need Help. Location: https://maps.google.com/?q=${lat},${lon}`;
+
+                    window.location.href =
+                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+                } catch(error) {
+
+                    console.log(error);
+                    alert("Firebase Error");
+                }
             },
-            (error) => {
-                statusText.innerText = "Location denied/unavailable. Sending basic alert.";
-                triggerAlert(phone, null, null);
-            },
-            { enableHighAccuracy: true, timeout: 5000 }
+
+            function() {
+
+                alert("Location Permission Denied");
+            }
+
         );
-    } else {
-        statusText.innerText = "Geolocation not supported. Sending basic alert.";
-        triggerAlert(phone, null, null);
-    }
-});
-
-function triggerAlert(phone, lat, lon) {
-    const selectedReason = document.querySelector('input[name="emergencyType"]:checked').value;
-    let message = `🚨 EMERGENCY ALERT! I am facing a ${selectedReason} and need help immediately.`;
-    
-    if (lat && lon) {
-        // Creates a direct click-to-map hyperlink
-        message += ` My current live location: https://maps.google.com/?q=${lat},${lon}`;
-    } else {
-        message += ` (GPS coordinates could not be retrieved automatically).`;
-    }
-
-    // URL Encode the string for secure link transfer
-    const encodedMessage = encodeURIComponent(message);
-    
-    // Direct cross-platform mobile intent link (Works natively on Android/iOS browsers)
-    const alertUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-    
-    // Open communication gateway immediately
-    window.location.href = alertUrl;
+    });
 }
 
-
-const sosBtn = document.getElementById("sosBtn");
-
-sosBtn.addEventListener("click", () => {
-    document.getElementById("status").innerText =
-    "🚨 Emergency Alert Sent Successfully!";
-});
-
-
-
-function showSOS() {
-    document.getElementById("msg").innerHTML =
-    "Emergency Alert Sent Successfully!";
-}
-
-function saveContact() {
+// Save Contact
+async function saveContact() {
 
     const name =
     document.getElementById("contactName").value;
@@ -94,51 +136,84 @@ function saveContact() {
     const number =
     document.getElementById("contactNumber").value;
 
-    localStorage.setItem("parentName", name);
-    localStorage.setItem("parentNumber", number);
+    try {
 
-    alert("Contact Saved");
+        await addDoc(
+            collection(db, "contacts"),
+            {
+                name: name,
+                number: number,
+                createdAt: new Date()
+            }
+        );
+
+        alert("✅ Contact Saved");
+
+    } catch(error) {
+
+        console.log(error);
+        alert("Error Saving Contact");
+    }
 }
 
+window.saveContact = saveContact;
 
-function submitComplaint() {
+// Submit Complaint
+async function submitComplaint() {
 
     const complaint =
     document.getElementById("complaint").value;
 
-    localStorage.setItem(
-        "complaint",
-        complaint
-    );
+    try {
 
-    alert("Complaint Submitted");
+        await addDoc(
+            collection(db, "complaints"),
+            {
+                complaint: complaint,
+                createdAt: new Date()
+            }
+        );
+
+        alert("✅ Complaint Submitted");
+
+    } catch(error) {
+
+        console.log(error);
+        alert("Error Submitting Complaint");
+    }
 }
 
+window.submitComplaint = submitComplaint;
 
+// Share Location
+function getLocation() {
 
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            document.getElementById("location")
+            .innerText =
+
+            "Latitude: " +
+            position.coords.latitude +
+
+            " | Longitude: " +
+            position.coords.longitude;
+        }
+
+    );
+}
+
+window.getLocation = getLocation;
+
+// Logout
 function logout() {
 
     localStorage.clear();
 
     window.location.href =
-    "index.html";
+    "login.html";
 }
 
-
-
-function getLocation() {
-
-    navigator.geolocation.getCurrentPosition(
-        function(position){
-
-            document.getElementById(
-            "location").innerText =
-
-            "Latitude: " +
-            position.coords.latitude +
-
-            " Longitude: " +
-            position.coords.longitude;
-        }
-    );
-}
+window.logout = logout;
