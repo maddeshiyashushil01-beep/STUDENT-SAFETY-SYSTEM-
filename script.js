@@ -5,76 +5,131 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Load saved phone
-document.addEventListener("DOMContentLoaded", () => {
 
-    const savedPhone =
-    localStorage.getItem("emergencyPhone");
+// SAVE CONTACT
+async function saveContact() {
 
-    if (savedPhone) {
-        const phoneField =
-        document.getElementById("contactPhone");
+    const name =
+    document.getElementById("contactName").value.trim();
 
-        if (phoneField) {
-            phoneField.value = savedPhone;
-        }
+    const number =
+    document.getElementById("contactNumber").value.trim();
+
+    if (!name || !number) {
+        alert("Enter Name and Phone Number");
+        return;
     }
-});
 
-// Save Emergency Contact
-const saveBtn =
-document.getElementById("saveConfigBtn");
+    try {
 
-if (saveBtn) {
+        await addDoc(
+            collection(db, "contacts"),
+            {
+                name: name,
+                number: number,
+                createdAt: new Date()
+            }
+        );
 
-    saveBtn.addEventListener("click", () => {
+        localStorage.setItem("parentName", name);
+        localStorage.setItem("parentNumber", number);
 
-        const phone =
-        document.getElementById("contactPhone").value.trim();
+        alert("✅ Contact Saved");
 
-        if (phone) {
+    } catch (error) {
 
-            localStorage.setItem(
-                "emergencyPhone",
-                phone
-            );
-
-            alert("✅ Emergency Contact Saved");
-
-        } else {
-
-            alert("Enter valid phone number");
-
-        }
-    });
+        console.log(error);
+        alert("Error Saving Contact");
+    }
 }
 
-// SOS Button
-const sosBtn =
-document.getElementById("sosBtn");
+window.saveContact = saveContact;
 
-if (sosBtn) {
 
-    sosBtn.addEventListener("click", () => {
+// SUBMIT COMPLAINT
+async function submitComplaint() {
+
+    const complaint =
+    document.getElementById("complaint").value.trim();
+
+    if (!complaint) {
+        alert("Write complaint first");
+        return;
+    }
+
+    try {
+
+        await addDoc(
+            collection(db, "complaints"),
+            {
+                complaint: complaint,
+                createdAt: new Date()
+            }
+        );
+
+        alert("✅ Complaint Submitted");
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Error Submitting Complaint");
+    }
+}
+
+window.submitComplaint = submitComplaint;
+
+
+// LOCATION
+function getLocation() {
+
+    if (!navigator.geolocation) {
+
+        alert("Location not supported");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            document.getElementById("location")
+            .innerText =
+
+            "📍 Latitude: " +
+            position.coords.latitude +
+
+            " | Longitude: " +
+            position.coords.longitude;
+        },
+
+        function() {
+
+            alert("Location Permission Denied");
+        }
+
+    );
+}
+
+window.getLocation = getLocation;
+
+
+// SOS BUTTON
+document.addEventListener("DOMContentLoaded", () => {
+
+    const sosBtn =
+    document.getElementById("sosBtn");
+
+    if (!sosBtn) return;
+
+    sosBtn.addEventListener("click", async () => {
 
         const phone =
-        localStorage.getItem("emergencyPhone");
+        localStorage.getItem("parentNumber");
 
         if (!phone) {
 
-            alert(
-            "Please save emergency phone number first"
-            );
-
+            alert("Please Save Emergency Contact First");
             return;
-        }
-
-        const statusLocation =
-        document.getElementById("statusLocation");
-
-        if (statusLocation) {
-            statusLocation.innerText =
-            "📍 Getting Location...";
         }
 
         navigator.geolocation.getCurrentPosition(
@@ -87,12 +142,12 @@ if (sosBtn) {
                 const lon =
                 position.coords.longitude;
 
-                try {
+                const emergencyType =
+                document.querySelector(
+                'input[name="emergencyType"]:checked'
+                )?.value || "Emergency";
 
-                    const emergencyType =
-                    document.querySelector(
-                    'input[name="emergencyType"]:checked'
-                    )?.value || "Emergency";
+                try {
 
                     await addDoc(
                         collection(db, "sos_alerts"),
@@ -105,11 +160,13 @@ if (sosBtn) {
                         }
                     );
 
-                    let message =
+                    const message =
                     `🚨 SOS ALERT! Need Help. Location: https://maps.google.com/?q=${lat},${lon}`;
 
-                    window.location.href =
-                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                    window.open(
+                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+                        "_blank"
+                    );
 
                 } catch(error) {
 
@@ -124,96 +181,18 @@ if (sosBtn) {
             }
 
         );
+
     });
-}
 
-// Save Contact
-async function saveContact() {
+});
 
-    const name =
-    document.getElementById("contactName").value;
 
-    const number =
-    document.getElementById("contactNumber").value;
-
-    try {
-
-        await addDoc(
-            collection(db, "contacts"),
-            {
-                name: name,
-                number: number,
-                createdAt: new Date()
-            }
-        );
-
-        alert("✅ Contact Saved");
-
-    } catch(error) {
-
-        console.log(error);
-        alert("Error Saving Contact");
-    }
-}
-
-window.saveContact = saveContact;
-
-// Submit Complaint
-async function submitComplaint() {
-
-    const complaint =
-    document.getElementById("complaint").value;
-
-    try {
-
-        await addDoc(
-            collection(db, "complaints"),
-            {
-                complaint: complaint,
-                createdAt: new Date()
-            }
-        );
-
-        alert("✅ Complaint Submitted");
-
-    } catch(error) {
-
-        console.log(error);
-        alert("Error Submitting Complaint");
-    }
-}
-
-window.submitComplaint = submitComplaint;
-
-// Share Location
-function getLocation() {
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            document.getElementById("location")
-            .innerText =
-
-            "Latitude: " +
-            position.coords.latitude +
-
-            " | Longitude: " +
-            position.coords.longitude;
-        }
-
-    );
-}
-
-window.getLocation = getLocation;
-
-// Logout
+// LOGOUT
 function logout() {
 
     localStorage.clear();
 
-    window.location.href =
-    "login.html";
+    window.location.href = "index.html";
 }
 
 window.logout = logout;
