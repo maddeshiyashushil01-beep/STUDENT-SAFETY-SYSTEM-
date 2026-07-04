@@ -2,27 +2,27 @@ import { auth } from "./firebase.js";
 
 import {
   signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const loginForm =
+const form =
 document.getElementById("loginForm");
 
-const errorMsg =
+const error =
 document.getElementById("errorMsg");
 
-loginForm.addEventListener(
+form.addEventListener(
 "submit",
 async (e) => {
 
     e.preventDefault();
 
     const email =
-    document.getElementById("username")
-    .value.trim();
+    document.getElementById("username").value;
 
     const password =
-    document.getElementById("password")
-    .value;
+    document.getElementById("password").value;
 
     try {
 
@@ -35,10 +35,11 @@ async (e) => {
         window.location.href =
         "sos.html";
 
-    } catch (error) {
+    }
+    catch(err) {
 
-        errorMsg.innerText =
-        "❌ Invalid Email or Password";
+        error.innerText =
+        "Invalid Email or Password";
     }
 
 });
