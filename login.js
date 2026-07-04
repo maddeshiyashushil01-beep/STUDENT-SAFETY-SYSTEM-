@@ -1,29 +1,44 @@
-const loginForm = document.getElementById('loginForm');
-const errorMsg = document.getElementById('errorMsg');
+import { auth } from "./firebase.js";
 
-loginForm.addEventListener('submit', (e) => {
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const loginForm =
+document.getElementById("loginForm");
+
+const errorMsg =
+document.getElementById("errorMsg");
+
+loginForm.addEventListener(
+"submit",
+async (e) => {
+
     e.preventDefault();
 
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value;
-    const currentRole = document.getElementById('role').value;
+    const email =
+    document.getElementById("username")
+    .value.trim();
 
-    if (currentRole === 'student' &&
-        user === 'student123' &&
-        pass === 'password') {
+    const password =
+    document.getElementById("password")
+    .value;
 
-        localStorage.setItem('userRole', 'student');
-        window.location.href = 'sos.html';
+    try {
 
-    } else if (currentRole === 'parent' &&
-               user === 'parent123' &&
-               pass === 'password') {
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-        localStorage.setItem('userRole', 'parent');
-        window.location.href = 'sos.html';
+        window.location.href =
+        "sos.html";
 
-    } else {
+    } catch (error) {
+
         errorMsg.innerText =
-        "❌ Invalid ID or Password";
+        "❌ Invalid Email or Password";
     }
+
 });
