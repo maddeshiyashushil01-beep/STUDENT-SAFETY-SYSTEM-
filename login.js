@@ -1,45 +1,39 @@
 import { auth } from "./firebase.js";
-
 import {
   signInWithEmailAndPassword
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const form =
+const loginForm =
 document.getElementById("loginForm");
 
-const error =
+const errorMsg =
 document.getElementById("errorMsg");
 
-form.addEventListener(
+loginForm.addEventListener(
 "submit",
 async (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    const email =
-    document.getElementById("username").value;
+  const email =
+  document.getElementById("username").value;
 
-    const password =
-    document.getElementById("password").value;
+  const password =
+  document.getElementById("password").value;
 
-    try {
+  try {
 
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-        window.location.href =
-        "sos.html";
+    window.location.href = "sos.html";
 
-    }
-    catch(err) {
+  } catch (error) {
 
-        error.innerText =
-        "Invalid Email or Password";
-    }
-
+    errorMsg.innerText =
+    "❌ Invalid Email or Password";
+  }
 });
