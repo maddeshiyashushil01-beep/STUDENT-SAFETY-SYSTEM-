@@ -1,56 +1,40 @@
-import { auth, db } from "./firebase.js";
-
+import { auth } from "./firebase.js";
 import {
   createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-import {
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const createBtn = document.getElementById("createAccountBtn");
+const registerBox = document.getElementById("registerBox");
+const registerBtn = document.getElementById("registerBtn");
 
-document.getElementById("registerBtn")
-.addEventListener("click", async () => {
+createBtn.addEventListener("click", () => {
+  registerBox.style.display = "block";
+});
 
-    const name =
-    document.getElementById("name").value;
+registerBtn.addEventListener("click", async () => {
 
-    const email =
-    document.getElementById("email").value;
+  const email =
+    document.getElementById("regEmail").value.trim();
 
-    const password =
-    document.getElementById("password").value;
+  const password =
+    document.getElementById("regPassword").value.trim();
 
-    const mobile =
-    document.getElementById("mobile").value;
+  if (!email || !password) {
+    alert("Enter Email and Password");
+    return;
+  }
 
-    try {
+  try {
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-        const userCredential =
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+    alert("Account Created Successfully!");
 
-        await setDoc(
-            doc(db, "students", userCredential.user.uid),
-            {
-                name,
-                email,
-                mobile,
-                createdAt: new Date()
-            }
-        );
-
-        alert("Registration Successful");
-
-        window.location.href =
-        "index.html";
-
-    } catch (error) {
-
-        alert(error.message);
-    }
-
+  } catch (error) {
+    alert(error.message);
+    console.log(error);
+  }
 });
