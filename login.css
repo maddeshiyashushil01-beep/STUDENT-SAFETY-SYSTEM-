@@ -1,62 +1,102 @@
-/* Login Page Layout */
-.login-card {
-    margin-top: 30px;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
 }
 
-.role-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
+body{
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
 }
 
-.btn-role {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.app-container{
+  width:100%;
+  max-width:380px;
 }
 
-.btn-role.active {
-    background: #007aff;
-    color: white;
-    border-color: #007aff;
+.login-card{
+  background:#fff;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.header-box{
+  background:#ff8a65;
+  color:white;
+  text-align:center;
+  padding:30px 20px;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.header-box img{
+  width:70px;
+  margin-bottom:15px;
 }
 
-.input-group label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-dark);
+.header-box h1{
+  font-size:24px;
+  margin-bottom:5px;
 }
 
-.input-group input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    background: #fafafa;
+.header-box p{
+  font-size:14px;
 }
 
-.error-text {
-    color: var(--primary-red);
-    font-size: 14px;
-    text-align: center;
-    margin-top: 12px;
-    font-weight: bold;
+.form-box{
+  padding:25px;
+}
+
+.input-group{
+  margin-bottom:15px;
+}
+
+.input-group input,
+.input-group select{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:16px;
+  outline:none;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+  border-color:#ff8a65;
+}
+
+.btn-login{
+  width:100%;
+  padding:14px;
+  background:#ff8a65;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.btn-login:hover{
+  background:#f77b52;
+}
+
+.create-link{
+  text-align:center;
+  margin-top:20px;
+}
+
+.create-link a{
+  text-decoration:none;
+  color:#2563eb;
+}
+
+.error-text{
+  color:red;
+  text-align:center;
+  margin-top:10px;
 }
