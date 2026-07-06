@@ -3,18 +3,12 @@ import {
   createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
-createBtn.addEventListener("click", () => {
-  registerBox.style.display = "block";
-});
+const registerBtn = document.getElementById("registerBtn");
 
 registerBtn.addEventListener("click", async () => {
 
-  const email =
-    document.getElementById("regEmail").value.trim();
-
-  const password =
-    document.getElementById("regPassword").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
   if (!email || !password) {
     alert("Enter Email and Password");
@@ -22,6 +16,7 @@ registerBtn.addEventListener("click", async () => {
   }
 
   try {
+
     await createUserWithEmailAndPassword(
       auth,
       email,
@@ -30,8 +25,13 @@ registerBtn.addEventListener("click", async () => {
 
     alert("Account Created Successfully!");
 
+    window.location.href = "index.html";
+
   } catch (error) {
+
     alert(error.message);
     console.log(error);
+
   }
+
 });
