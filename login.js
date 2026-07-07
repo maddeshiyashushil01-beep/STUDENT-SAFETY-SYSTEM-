@@ -1,47 +1,23 @@
 import { auth } from "./firebase.js";
-import {
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+const loginForm = document.getElementById("loginForm");
+const errorMsg = document.getElementById("errorMsg");
 
-const email =
-document.getElementById("email").value.trim();
+loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-const password =
-document.getElementById("password").value.trim();
+    const email = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
 
-const loginForm =
-document.getElementById("loginForm");
+        alert("Login Successful!");
 
-const errorMsg =
-document.getElementById("errorMsg");
+        window.location.href = "sos.html";
 
-loginForm.addEventListener(
-"submit",
-async (e) => {
-
-  e.preventDefault();
-
-  const email =
-  document.getElementById("username").value;
-
-  const password =
-  document.getElementById("password").value;
-
-  try {
-
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    window.location.href = "sos.html";
-
-  } catch (error) {
-
-    errorMsg.innerText =
-    "❌ Invalid Email or Password";
-  }
+    } catch (error) {
+        errorMsg.innerText = error.message;
+    }
 });
