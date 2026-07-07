@@ -25,6 +25,6 @@ loginForm.addEventListener("submit", async (e) => {
 
   } catch (error) {
     console.log(error);
-    errorMsg.innerText = error.code;
+    errorMsg.innerText = error.code + " : " + error.message;
   }
 });
