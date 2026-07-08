@@ -138,73 +138,78 @@ window.getLocation = getLocation;
 // ===========================
 // SOS BUTTON
 // ===========================
-document.addEventListener("DOMContentLoaded", () => {
-
-  const sosBtn = document.getElementById("sosBtn");
-
-  sosBtn.addEventListener("click", () => {
+sosBtn.addEventListener("click", () => {
 
     const phone = localStorage.getItem("parentNumber");
 
     if (!phone) {
+        alert("Please Save Emergency Contact First");
+        return;
+    }
 
-      alert("Please Save Emergency Contact First");
-      return;
+    const emergencyType =
+        document.querySelector(
+            'input[name="emergencyType"]:checked'
+        )?.value || "Emergency";
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position) {
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                const message =
+`🚨 SOS ALERT
+Emergency: ${emergencyType}
+
+Location:
+https://maps.google.com/?q=${lat},${lon}
+
+Need Help Immediately!`;
+
+                // Internet available
+                if (navigator.onLine) {
+
+                    window.open(
+                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+                        "_blank"
+                    );
+
+                } else {
+
+                    // Offline → Open SMS app
+                    window.location.href =
+                    `sms:${phone}?body=${encodeURIComponent(message)}`;
+
+                }
+
+            },
+
+            function() {
+
+                const message =
+`🚨 SOS ALERT
+Emergency: ${emergencyType}
+Location unavailable.
+Need Help Immediately!`;
+
+                window.location.href =
+                `sms:${phone}?body=${encodeURIComponent(message)}`;
+
+            }
+
+        );
+
+    } else {
+
+        alert("Location not supported");
 
     }
 
-    navigator.geolocation.getCurrentPosition(
-
-      async (position) => {
-
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        const emergency =
-        document.querySelector(
-        'input[name="emergencyType"]:checked').value;
-
-        try {
-
-          await addDoc(collection(db, "sos_alerts"), {
-
-            emergency,
-            phone,
-            latitude: lat,
-            longitude: lon,
-            createdAt: new Date()
-
-          });
-
-          const message =
-          `🚨 SOS ALERT!\nLocation:\nhttps://maps.google.com/?q=${lat},${lon}`;
-
-          window.open(
-            `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
-            "_blank"
-          );
-
-          alert("✅ SOS Sent");
-
-        } catch (error) {
-
-          console.log(error);
-          alert(error.message);
-
-        }
-
-      },
-
-      () => {
-
-        alert("Location Permission Denied");
-
-      }
-
-    );
-
-  });
-
+});
 });
 
 
