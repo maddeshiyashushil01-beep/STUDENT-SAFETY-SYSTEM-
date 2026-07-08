@@ -10,25 +10,18 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-// ===========================
+// =========================
 // CHECK LOGIN
-// ===========================
+// =========================
 onAuthStateChanged(auth, (user) => {
-
-  if (user) {
-    console.log("Logged in:", user.email);
-  } else {
-    alert("Please login first");
-    location.replace("index.html");
+  if (!user) {
+    window.location.href = "index.html";
   }
-
 });
 
-
-// ===========================
+// =========================
 // SAVE CONTACT
-// ===========================
+// =========================
 async function saveContact() {
 
   const name = document.getElementById("contactName").value.trim();
@@ -53,27 +46,23 @@ async function saveContact() {
     alert("✅ Contact Saved");
 
   } catch (error) {
-
     console.log(error);
     alert(error.message);
-
   }
 
 }
 
 window.saveContact = saveContact;
 
-
-// ===========================
-// SUBMIT COMPLAINT
-// ===========================
+// =========================
+// COMPLAINT
+// =========================
 async function submitComplaint() {
 
-  const complaint =
-  document.getElementById("complaint").value.trim();
+  const complaint = document.getElementById("complaint").value.trim();
 
   if (!complaint) {
-    alert("Write complaint first");
+    alert("Write Complaint");
     return;
   }
 
@@ -86,28 +75,25 @@ async function submitComplaint() {
 
     alert("✅ Complaint Submitted");
 
-  } catch (error) {
+    document.getElementById("complaint").value = "";
 
+  } catch (error) {
     console.log(error);
     alert(error.message);
-
   }
 
 }
 
 window.submitComplaint = submitComplaint;
 
-
-// ===========================
-// LOCATION
-// ===========================
+// =========================
+// SHARE LOCATION
+// =========================
 function getLocation() {
 
   if (!navigator.geolocation) {
-
     alert("Geolocation not supported");
     return;
-
   }
 
   navigator.geolocation.getCurrentPosition(
@@ -118,7 +104,7 @@ function getLocation() {
       const lon = position.coords.longitude;
 
       document.getElementById("location").innerHTML =
-      `📍 Latitude : ${lat}<br>Longitude : ${lon}`;
+        `📍 Latitude: ${lat}<br>Longitude: ${lon}`;
 
     },
 
@@ -134,23 +120,32 @@ function getLocation() {
 
 window.getLocation = getLocation;
 
-
-// ===========================
+// =========================
 // SOS BUTTON
-// ===========================
+// =========================
 document.addEventListener("DOMContentLoaded", () => {
 
   const sosBtn = document.getElementById("sosBtn");
+
+  if (!sosBtn) return;
 
   sosBtn.addEventListener("click", () => {
 
     const phone = localStorage.getItem("parentNumber");
 
     if (!phone) {
-
       alert("Please Save Emergency Contact First");
       return;
+    }
 
+    const emergencyType =
+      document.querySelector(
+        'input[name="emergencyType"]:checked'
+      )?.value || "Emergency";
+
+    if (!navigator.geolocation) {
+      alert("Location not supported");
+      return;
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -160,36 +155,45 @@ document.addEventListener("DOMContentLoaded", () => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        const emergency =
-        document.querySelector(
-        'input[name="emergencyType"]:checked').value;
-
         try {
 
           await addDoc(collection(db, "sos_alerts"), {
 
-            emergency,
-            phone,
+            emergency: emergencyType,
+            phone: phone,
             latitude: lat,
             longitude: lon,
             createdAt: new Date()
 
           });
 
-          const message =
-          `🚨 SOS ALERT!\nLocation:\nhttps://maps.google.com/?q=${lat},${lon}`;
+        } catch (e) {
+
+          console.log(e);
+
+        }
+
+        const message =
+`🚨 SOS ALERT
+
+Emergency: ${emergencyType}
+
+Location:
+https://maps.google.com/?q=${lat},${lon}
+
+Need Help Immediately!`;
+
+        if (navigator.onLine) {
 
           window.open(
             `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
             "_blank"
           );
 
-          alert("✅ SOS Sent");
+        } else {
 
-        } catch (error) {
-
-          console.log(error);
-          alert(error.message);
+          window.location.href =
+            `sms:${phone}?body=${encodeURIComponent(message)}`;
 
         }
 
@@ -197,7 +201,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       () => {
 
-        alert("Location Permission Denied");
+        const message =
+`🚨 SOS ALERT
+
+Need Help Immediately!
+
+Location unavailable.`;
+
+        window.location.href =
+          `sms:${phone}?body=${encodeURIComponent(message)}`;
 
       }
 
@@ -207,17 +219,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
-// ===========================
+// =========================
 // LOGOUT
-// ===========================
+// =========================
 async function logout() {
 
-  await signOut(auth);
+  try {
 
-  localStorage.clear();
+    await signOut(auth);
 
-  location.replace("index.html");
+    localStorage.clear();
+
+    window.location.href = "index.html";
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
 
 }
 
