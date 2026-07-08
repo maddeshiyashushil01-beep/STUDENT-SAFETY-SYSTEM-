@@ -138,78 +138,73 @@ window.getLocation = getLocation;
 // ===========================
 // SOS BUTTON
 // ===========================
-sosBtn.addEventListener("click", () => {
+document.addEventListener("DOMContentLoaded", () => {
+
+  const sosBtn = document.getElementById("sosBtn");
+
+  sosBtn.addEventListener("click", () => {
 
     const phone = localStorage.getItem("parentNumber");
 
     if (!phone) {
-        alert("Please Save Emergency Contact First");
-        return;
+
+      alert("Please Save Emergency Contact First");
+      return;
+
     }
 
-    const emergencyType =
+    navigator.geolocation.getCurrentPosition(
+
+      async (position) => {
+
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const emergency =
         document.querySelector(
-            'input[name="emergencyType"]:checked'
-        )?.value || "Emergency";
+        'input[name="emergencyType"]:checked').value;
 
-    if (navigator.geolocation) {
+        try {
 
-        navigator.geolocation.getCurrentPosition(
+          await addDoc(collection(db, "sos_alerts"), {
 
-            function(position) {
+            emergency,
+            phone,
+            latitude: lat,
+            longitude: lon,
+            createdAt: new Date()
 
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+          });
 
-                const message =
-`🚨 SOS ALERT
-Emergency: ${emergencyType}
+          const message =
+          `🚨 SOS ALERT!\nLocation:\nhttps://maps.google.com/?q=${lat},${lon}`;
 
-Location:
-https://maps.google.com/?q=${lat},${lon}
+          window.open(
+            `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+            "_blank"
+          );
 
-Need Help Immediately!`;
+          alert("✅ SOS Sent");
 
-                // Internet available
-                if (navigator.onLine) {
+        } catch (error) {
 
-                    window.open(
-                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
-                        "_blank"
-                    );
+          console.log(error);
+          alert(error.message);
 
-                } else {
+        }
 
-                    // Offline → Open SMS app
-                    window.location.href =
-                    `sms:${phone}?body=${encodeURIComponent(message)}`;
+      },
 
-                }
+      () => {
 
-            },
+        alert("Location Permission Denied");
 
-            function() {
+      }
 
-                const message =
-`🚨 SOS ALERT
-Emergency: ${emergencyType}
-Location unavailable.
-Need Help Immediately!`;
+    );
 
-                window.location.href =
-                `sms:${phone}?body=${encodeURIComponent(message)}`;
+  });
 
-            }
-
-        );
-
-    } else {
-
-        alert("Location not supported");
-
-    }
-
-});
 });
 
 
