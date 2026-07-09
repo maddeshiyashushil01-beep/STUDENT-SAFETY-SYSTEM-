@@ -6,62 +6,91 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
+  doc,
+  setDoc,
+  getDoc,
   collection,
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+let currentUser = null;
 
-// =========================
+// ===============================
 // CHECK LOGIN
-// =========================
-
-onAuthStateChanged(auth, (user) => {
+// ===============================
+onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
     window.location.href = "index.html";
     return;
   }
 
-  // Load saved contact
-  const savedName = localStorage.getItem("parentName");
-  const savedNumber = localStorage.getItem("parentNumber");
+  currentUser = user;
 
-  if (savedName) {
-    document.getElementById("contactName").value = savedName;
-  }
-
-  if (savedNumber) {
-    document.getElementById("contactNumber").value = savedNumber;
-  }
+  // Load saved contact automatically
+  await loadContact();
 
 });
 
-
-// =========================
-// SAVE CONTACT
-// =========================
-
-async function saveContact() {
-
-  const name = document.getElementById("contactName").value.trim();
-  const number = document.getElementById("contactNumber").value.trim();
-
-  if (!name || !number) {
-    alert("Enter Parent Name and Phone Number");
-    return;
-  }
-
-  // Save locally
-  localStorage.setItem("parentName", name);
-  localStorage.setItem("parentNumber", number);
+// ===============================
+// LOAD SAVED CONTACT
+// ===============================
+async function loadContact() {
 
   try {
 
-    await addDoc(collection(db, "contacts"), {
-      name,
-      number,
-      createdAt: new Date()
+    const docRef = doc(db, "contacts", currentUser.uid);
+
+    const snap = await getDoc(docRef);
+
+    if (snap.exists()) {
+
+      const data = snap.data();
+
+      document.getElementById("contactName").value = data.name;
+      document.getElementById("contactNumber").value = data.number;
+
+      localStorage.setItem("parentName", data.name);
+      localStorage.setItem("parentNumber", data.number);
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
+// ===============================
+// SAVE CONTACT
+// ===============================
+async function saveContact() {
+
+  const name = document.getElementById("contactName").value.trim();
+
+  const number = document.getElementById("contactNumber").value.trim();
+
+  if (!name || !number) {
+
+    alert("Enter Parent Name and Phone Number");
+    return;
+
+  }
+
+  try {
+
+    await setDoc(doc(db, "contacts", currentUser.uid), {
+
+      name: name,
+      number: number,
+      updatedAt: new Date()
+
     });
+
+    localStorage.setItem("parentName", name);
+    localStorage.setItem("parentNumber", number);
 
     alert("✅ Contact Saved Successfully");
 
@@ -76,37 +105,38 @@ async function saveContact() {
 
 window.saveContact = saveContact;
 
-
-// =========================
-// COMPLAINT
-// =========================
-
+// ===============================
+// SUBMIT COMPLAINT
+// ===============================
 async function submitComplaint() {
 
-  const complaint =
-    document.getElementById("complaint").value.trim();
+  const complaint = document.getElementById("complaint").value.trim();
 
   if (!complaint) {
+
     alert("Write Complaint");
     return;
+
   }
 
   try {
 
     await addDoc(collection(db, "complaints"), {
 
-      complaint,
+      user: currentUser.email,
+      complaint: complaint,
       createdAt: new Date()
 
     });
 
-    alert("✅ Complaint Submitted");
-
     document.getElementById("complaint").value = "";
+
+    alert("✅ Complaint Submitted");
 
   } catch (error) {
 
     console.log(error);
+
     alert(error.message);
 
   }
@@ -115,16 +145,14 @@ async function submitComplaint() {
 
 window.submitComplaint = submitComplaint;
 
-
-// =========================
+// ===============================
 // SHARE LOCATION
-// =========================
-
+// ===============================
 function getLocation() {
 
   if (!navigator.geolocation) {
 
-    alert("Geolocation not supported");
+    alert("Location not supported");
 
     return;
 
@@ -138,7 +166,8 @@ function getLocation() {
       const lon = position.coords.longitude;
 
       document.getElementById("location").innerHTML =
-      `📍 Latitude: ${lat}<br>Longitude: ${lon}`;
+
+      `📍 Latitude : ${lat}<br>Longitude : ${lon}`;
 
     },
 
@@ -154,11 +183,9 @@ function getLocation() {
 
 window.getLocation = getLocation;
 
-
-// =========================
+// ===============================
 // SOS BUTTON
-// =========================
-
+// ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
   const sosBtn = document.getElementById("sosBtn");
@@ -177,51 +204,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    const emergencyType =
-      document.querySelector(
-        'input[name="emergencyType"]:checked'
-      )?.value || "Emergency";
+    const emergencyType = document.querySelector(
+      'input[name="emergencyType"]:checked'
+    ).value;
 
     navigator.geolocation.getCurrentPosition(
 
       async (position) => {
 
         const lat = position.coords.latitude;
+
         const lon = position.coords.longitude;
 
         try {
 
           await addDoc(collection(db, "sos_alerts"), {
 
+            user: currentUser.email,
             emergency: emergencyType,
-            phone,
             latitude: lat,
             longitude: lon,
             createdAt: new Date()
 
           });
 
-        } catch (e) {
+        } catch (error) {
 
-          console.log(e);
+          console.log(error);
 
         }
 
         const message =
 `🚨 SOS ALERT
 
-Emergency: ${emergencyType}
+Student : ${currentUser.email}
 
-Location:
+Emergency : ${emergencyType}
+
+Location :
 https://maps.google.com/?q=${lat},${lon}
 
-Need Help Immediately!`;
+Need Help Immediately`;
 
         if (navigator.onLine) {
 
           window.open(
+
             `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+
             "_blank"
+
           );
 
         } else {
@@ -236,7 +268,7 @@ Need Help Immediately!`;
       () => {
 
         window.location.href =
-        `sms:${phone}?body=${encodeURIComponent("🚨 SOS ALERT! Need Help Immediately!")}`;
+        `sms:${phone}?body=SOS Help Needed`;
 
       }
 
@@ -246,11 +278,9 @@ Need Help Immediately!`;
 
 });
 
-
-// =========================
+// ===============================
 // LOGOUT
-// =========================
-
+// ===============================
 async function logout() {
 
   try {
