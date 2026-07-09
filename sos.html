@@ -3,97 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Student Safety Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="header">
-        <h1>🚨 Student Safety Dashboard</h1>
-        <p>Instant Emergency Support</p>
-    </div>
+<div class="header">
 
-    <div class="card">
-        <h3>Emergency Contact</h3>
+<div class="logo">
+🛡️
+</div>
 
-        <input type="text" id="contactName" placeholder="Parent Name">
+<h1>Student Safety System</h1>
 
-        <input type="text" id="contactNumber" placeholder="Phone Number">
+<p>Your Personal Emergency Dashboard</p>
 
-        <button onclick="saveContact()">
-            Save Contact
-        </button>
-    </div>
+</div>
 
-    <div class="card">
-        <h3>Select Emergency Type</h3>
 
-        <label>
-            <input type="radio"
-                   name="emergencyType"
-                   value="Medical Emergency"
-                   checked>
-            Health
-        </label>
+<div class="card">
 
-        <label>
-            <input type="radio"
-                   name="emergencyType"
-                   value="Safety Threat">
-            Threat
-        </label>
+<h2>👨 Emergency Contact</h2>
 
-        <label>
-            <input type="radio"
-                   name="emergencyType"
-                   value="Accident">
-            Accident
-        </label>
+<input
+type="text"
+id="contactName"
+placeholder="Parent / Guardian Name">
 
-        <label>
-            <input type="radio"
-                   name="emergencyType"
-                   value="Theft">
-            Theft
-        </label>
-    </div>
+<input
+type="text"
+id="contactNumber"
+placeholder="Phone Number">
 
-    <div class="sos-container">
-        <button id="sosBtn" class="sos-btn">
+<button class="blue-btn" onclick="saveContact()">
+💾 Save Contact
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🚨 Emergency Type</h2>
+
+<div class="radio-grid">
+
+<label>
+<input type="radio"
+name="emergencyType"
+value="Medical Emergency"
+checked>
+
+❤️ Medical
+</label>
+
+<label>
+<input type="radio"
+name="emergencyType"
+value="Safety Threat">
+
+🛑 Threat
+</label>
+
+<label>
+<input type="radio"
+name="emergencyType"
+value="Accident">
+
+🚑 Accident
+</label>
+
+<label>
+<input type="radio"
+name="emergencyType"
+value="Theft">
+
+🔒 Theft
+</label>
+
+</div>
+
+</div>
+
+
+
+<div class="sos-box">
+
+<button
+id="sosBtn"
+class="sos-btn">
+
 SOS
+
 </button>
-    </div>
 
-    <div class="card">
-        <h3>Complaint</h3>
+<p>Tap only during emergency</p>
 
-        <textarea id="complaint"
-                  placeholder="Write complaint"></textarea>
+</div>
 
-        <button onclick="submitComplaint()">
-            Submit Complaint
-        </button>
-    </div>
 
-    <div class="card">
-        
 
-      <button onclick="getLocation()">
+<div class="card">
+
+<h2>📝 Complaint</h2>
+
+<textarea
+id="complaint"
+placeholder="Write your complaint here..."></textarea>
+
+<button
+class="blue-btn"
+onclick="submitComplaint()">
+
+Submit Complaint
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>📍 Live Location</h2>
+
+<button
+class="blue-btn"
+onclick="getLocation()">
+
 Share Location
+
 </button>
 
-        <p id="location"></p>
-    </div>
+<p id="location"></p>
 
-    <button onclick="logout()">
-        Logout
-    </button>
+</div>
+
+
+<button
+class="logout-btn"
+onclick="logout()">
+
+Logout
+
+</button>
 
 </div>
 
 <script type="module" src="script.js"></script>
+
 </body>
 </html>
