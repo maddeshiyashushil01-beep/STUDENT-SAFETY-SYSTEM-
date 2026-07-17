@@ -7,69 +7,46 @@
 <title>Student Safety System</title>
 
 <link rel="stylesheet" href="login.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="app-container">
 
-<div class="left">
+<div class="login-card">
 
-<div class="logo">
+<div class="header-box">
+
+<div class="logo-circle">
 🛡
 </div>
 
 <h1>Student Safety System</h1>
 
-<p>
-AI Powered Campus Safety Platform
-</p>
-
-<ul>
-
-<li><i class="fa-solid fa-location-dot"></i> Live Location Sharing</li>
-
-<li><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</li>
-
-<li><i class="fa-solid fa-book-open"></i> AI Study Assistant</li>
-
-<li><i class="fa-solid fa-calendar-days"></i> Classes & Events</li>
-
-<li><i class="fa-solid fa-bell"></i> Smart Notices</li>
-
-</ul>
+<p>AI Powered Campus Safety Platform</p>
 
 </div>
 
-<div class="right">
-
-<div class="login-box">
+<div class="form-box">
 
 <h2>Welcome Back 👋</h2>
 
-<p>Login to Continue</p>
-
 <form id="loginForm">
 
-<div class="input-box">
+<div class="input-group">
 
 <label>Login As</label>
 
 <select id="role">
-
 <option value="student">🎓 Student</option>
-
 <option value="admin">👨‍💼 Admin</option>
-
 </select>
 
 </div>
 
-<div class="input-box">
+<div class="input-group">
 
 <label>Email</label>
 
@@ -81,7 +58,7 @@ required>
 
 </div>
 
-<div class="input-box">
+<div class="input-group">
 
 <label>Password</label>
 
@@ -93,23 +70,23 @@ required>
 
 </div>
 
-<button
-type="submit"
-class="login-btn">
+<button type="submit" class="btn-login">
 
-<i class="fa-solid fa-right-to-bracket"></i>
+<i class="fas fa-right-to-bracket"></i>
 
-Login
+ Login
 
 </button>
 
-<p id="errorMsg"></p>
+<p id="errorMsg" class="error-text"></p>
 
-<div class="links">
+<div class="create-link">
+
+New Student?
 
 <a href="register.html">
 
-Create New Account
+Create Account
 
 </a>
 
