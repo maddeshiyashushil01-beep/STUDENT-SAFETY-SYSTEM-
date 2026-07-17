@@ -1,77 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Hostel Guard</title>
-  <link rel="stylesheet" href="login.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Safety System</title>
+
+<link rel="stylesheet" href="login.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
+
 <body>
 
-<div class="app-container">
+<div class="container">
 
-  <div class="login-card">
+<div class="left">
 
-    <div class="header-box">
-      <h1>🔐 Secure Gateway</h1>
-      <p>Hostel Guard Safety System</p>
-    </div>
+<div class="logo">
+🛡
+</div>
 
-    <div class="form-box">
+<h1>Student Safety System</h1>
 
-      <h3>Login to Continue</h3>
+<p>
+AI Powered Campus Safety Platform
+</p>
 
-      <form id="loginForm" class="login-form">
+<ul>
 
-        <div class="input-group">
-          <label for="role">Choose Your Role</label>
-          <select id="role">
-            <option value="student">🧑‍🎓 Student</option>
-            <option value="parent">👨‍👩‍👧 Parent</option>
-          </select>
-        </div>
+<li><i class="fa-solid fa-location-dot"></i> Live Location Sharing</li>
 
-        <div class="input-group">
-          <label for="username">Email</label>
-          <input
-            type="email"
-            id="username"
-            placeholder="Enter Email Address"
-            required
-          >
-        </div>
+<li><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</li>
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter Password"
-            required
-          >
-        </div>
+<li><i class="fa-solid fa-book-open"></i> AI Study Assistant</li>
 
-        <button type="submit" class="btn-login">
-          Access Dashboard
-        </button>
+<li><i class="fa-solid fa-calendar-days"></i> Classes & Events</li>
 
-      </form>
+<li><i class="fa-solid fa-bell"></i> Smart Notices</li>
 
-      <p id="errorMsg" class="error-text"></p>
+</ul>
 
-      <div class="create-link">
-        New Student?
-        <a href="register.html">
-          Create Account
-        </a>
-      </div>
+</div>
 
-    </div>
+<div class="right">
 
-  </div>
+<div class="login-box">
+
+<h2>Welcome Back 👋</h2>
+
+<p>Login to Continue</p>
+
+<form id="loginForm">
+
+<div class="input-box">
+
+<label>Login As</label>
+
+<select id="role">
+
+<option value="student">🎓 Student</option>
+
+<option value="admin">👨‍💼 Admin</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Email</label>
+
+<input
+type="email"
+id="username"
+placeholder="Enter Email"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Password</label>
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
+
+</div>
+
+<button
+type="submit"
+class="login-btn">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+Login
+
+</button>
+
+<p id="errorMsg"></p>
+
+<div class="links">
+
+<a href="register.html">
+
+Create New Account
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
 
 </div>
 
 <script type="module" src="login.js"></script>
+
 </body>
 </html>
