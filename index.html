@@ -1,106 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Login - Hostel Guard</title>  
+  <link rel="stylesheet" href="login.css">  
+</head>  
+<body>  <div class="app-container">    <div class="login-card">  <div class="header-box">  
+  <h1>🔐 Secure Gateway</h1>  
+  <p>Hostel Guard Safety System</p>  
+</div>  
 
-<title>Student Safety System</title>
+<div class="form-box">  
 
-<link rel="stylesheet" href="login.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <h3>Login to Continue</h3>  
 
-</head>
+  <form id="loginForm" class="login-form">  
 
-<body>
+    <div class="input-group">  
+      <label for="role">Choose Your Role</label>  
+      <select id="role">  
+        <option value="student">🧑‍🎓 Student</option>  
+        <option value="parent">👨‍👩‍👧 Parent</option>  
+      </select>  
+    </div>  
 
-<div class="app-container">
+    <div class="input-group">  
+      <label for="username">Email</label>  
+      <input  
+        type="email"  
+        id="username"  
+        placeholder="Enter Email Address"  
+        required  
+      >  
+    </div>  
 
-<div class="login-card">
+    <div class="input-group">  
+      <label for="password">Password</label>  
+      <input  
+        type="password"  
+        id="password"  
+        placeholder="Enter Password"  
+        required  
+      >  
+    </div>  
 
-<div class="header-box">
+    <button type="submit" class="btn-login">  
+      Access Dashboard  
+    </button>  
 
-<div class="logo-circle">
-🛡
-</div>
+  </form>  
 
-<h1>Student Safety System</h1>
+  <p id="errorMsg" class="error-text"></p>  
 
-<p>AI Powered Campus Safety Platform</p>
-
-</div>
-
-<div class="form-box">
-
-<h2>Welcome Back 👋</h2>
-
-<form id="loginForm">
-
-<div class="input-group">
-
-<label>Login As</label>
-
-<select id="role">
-<option value="student">🎓 Student</option>
-<option value="admin">👨‍💼 Admin</option>
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>Email</label>
-
-<input
-type="email"
-id="username"
-placeholder="Enter Email"
-required>
-
-</div>
-
-<div class="input-group">
-
-<label>Password</label>
-
-<input
-type="password"
-id="password"
-placeholder="Enter Password"
-required>
+  <div class="create-link">  
+    New Student?  
+    <a href="register.html">  
+      Create Account  
+    </a>  
+  </div>  
 
 </div>
 
-<button type="submit" class="btn-login">
-
-<i class="fas fa-right-to-bracket"></i>
-
- Login
-
-</button>
-
-<p id="errorMsg" class="error-text"></p>
-
-<div class="create-link">
-
-New Student?
-
-<a href="register.html">
-
-Create Account
-
-</a>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-<script type="module" src="login.js"></script>
-
-</body>
-</html>
+  </div>  </div>  <script type="module" src="login.js"></script>  </body>  
+</html>  Index.html
