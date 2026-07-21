@@ -17,16 +17,29 @@ import {
 
 
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
+    location.replace("index.html");
+    return;
+  }
 
-    window.location.href = "index.html";
+  const snapshot = await getDocs(collection(db, "admins"));
 
+  let isAdmin = false;
+
+  snapshot.forEach((doc) => {
+    if (doc.data().email === user.email) {
+      isAdmin = true;
+    }
+  });
+
+  if (!isAdmin) {
+    alert("Access Denied");
+    location.replace("sos.html");
   }
 
 });
-
 
 
 async function loadDashboard() {
