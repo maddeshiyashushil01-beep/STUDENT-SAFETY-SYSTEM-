@@ -3,7 +3,8 @@ import { auth, db } from "./firebase.js";
 import {
   signInWithEmailAndPassword,
   setPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
@@ -18,8 +19,10 @@ loginForm.addEventListener("submit", async (e) => {
 
   e.preventDefault();
 
+  errorMsg.innerText = "";
+
   const email = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").trim();
+  const password = document.getElementById("password").value.trim();
   const role = document.getElementById("role").value;
 
   try {
@@ -28,34 +31,43 @@ loginForm.addEventListener("submit", async (e) => {
 
     await signInWithEmailAndPassword(auth, email, password);
 
-    if(role === "admin"){
+    if (role === "admin") {
 
-      const snapshot = await getDocs(collection(db,"admins"));
+      const snapshot = await getDocs(collection(db, "admins"));
 
       let isAdmin = false;
 
-      snapshot.forEach(doc=>{
-        if(doc.data().email === email){
+      snapshot.forEach((doc) => {
+
+        if (doc.data().email === email) {
           isAdmin = true;
         }
+
       });
 
-      if(isAdmin){
+      if (isAdmin) {
+
+        alert("Admin Login Successful");
         location.replace("admin.html");
-      }else{
-        alert("Access Denied");
+
+      } else {
+
+        await signOut(auth);
+        alert("Access Denied! You are not an Admin.");
+        location.replace("index.html");
+
       }
 
-    }else{
+    } else {
 
+      alert("Student Login Successful");
       location.replace("sos.html");
 
     }
 
-  } catch(error){
+  } catch (error) {
 
-    console.log(error);
-
+    console.error(error);
     errorMsg.innerText = error.message;
 
   }
