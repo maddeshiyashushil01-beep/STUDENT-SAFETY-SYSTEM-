@@ -1,3 +1,15 @@
+onAuthStateChanged(auth, (user) => {
+
+  if (!user) {
+
+    window.location.href = "index.html";
+
+  }
+
+});
+
+
+
 async function loadDashboard() {
   try {
     const students = await getDocs(collection(db, "students"));
