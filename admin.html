@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Admin Dashboard</title>
 
 <link rel="stylesheet" href="admin.css">
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -17,58 +16,51 @@
 
 <div class="sidebar">
 
-<h2>🛡 Student Safety</h2>
+<div class="logo">
+🛡
+<h2>Student Safety</h2>
+</div>
 
 <ul>
 
 <li class="active">
 <i class="fas fa-home"></i>
-Dashboard
+<span>Dashboard</span>
 </li>
 
 <li>
 <i class="fas fa-users"></i>
-Students
+<span>Students</span>
 </li>
 
 <li>
 <i class="fas fa-book"></i>
-Today's Classes
+<span>Classes</span>
 </li>
 
 <li>
 <i class="fas fa-bullhorn"></i>
-Notices
+<span>Notices</span>
 </li>
 
 <li>
 <i class="fas fa-calendar"></i>
-Events
-</li>
-
-<li>
-<i class="fas fa-user-check"></i>
-Attendance
+<span>Events</span>
 </li>
 
 <li>
 <i class="fas fa-triangle-exclamation"></i>
-SOS Alerts
+<span>SOS Alerts</span>
 </li>
 
 <li>
 <i class="fas fa-comment"></i>
-Complaints
-</li>
-
-<li>
-<i class="fas fa-chart-line"></i>
-Analytics
+<span>Complaints</span>
 </li>
 
 <li onclick="logout()">
 <i class="fas fa-right-from-bracket"></i>
-Logout
+<span>Logout</span>
 </li>
 
 </ul>
@@ -81,7 +73,17 @@ Logout
 
 <h1>👨‍💼 Admin Dashboard</h1>
 
-<p id="date"></p>
+<div class="top-right">
+
+<input
+type="text"
+placeholder="Search...">
+
+<div class="profile">
+👤 Admin
+</div>
+
+</div>
 
 </div>
 
@@ -113,33 +115,27 @@ Logout
 
 </div>
 
-<div class="section">
+<div class="grid">
 
-<h2>📚 Publish Today's Class</h2>
+<div class="box">
 
-<input
-type="text"
-id="classTitle"
-placeholder="Subject">
+<h3>📚 Publish Class</h3>
 
-<input
-type="text"
-id="teacherName"
-placeholder="Teacher Name">
+<input id="classTitle" placeholder="Subject">
 
-<input
-type="time"
-id="classTime">
+<input id="teacherName" placeholder="Teacher">
+
+<input id="classTime" type="time">
 
 <button onclick="addClass()">
-Publish Class
+Publish
 </button>
 
 </div>
 
-<div class="section">
+<div class="box">
 
-<h2>📢 Publish Notice</h2>
+<h3>📢 Publish Notice</h3>
 
 <textarea
 id="noticeText"
@@ -147,23 +143,18 @@ placeholder="Write Notice">
 </textarea>
 
 <button onclick="publishNotice()">
-Publish Notice
+Publish
 </button>
 
 </div>
 
-<div class="section">
+<div class="box">
 
-<h2>🎉 Add Event</h2>
+<h3>🎉 Add Event</h3>
 
-<input
-type="text"
-id="eventTitle"
-placeholder="Event Name">
+<input id="eventTitle" placeholder="Event Name">
 
-<input
-type="date"
-id="eventDate">
+<input id="eventDate" type="date">
 
 <button onclick="addEvent()">
 Add Event
@@ -171,25 +162,23 @@ Add Event
 
 </div>
 
-<div class="section">
+<div class="box">
 
-<h2>📈 Recent SOS Alerts</h2>
+<h3>🚨 Recent SOS</h3>
 
 <div id="sosList">
-
-<p>No Alerts</p>
-
+Loading...
 </div>
 
 </div>
 
-<div class="section">
+<div class="box">
 
-<h2>📝 Recent Complaints</h2>
+<h3>📝 Complaints</h3>
 
 <div id="complaintList">
-
-<p>No Complaints</p>
+Loading...
+</div>
 
 </div>
 
@@ -198,13 +187,6 @@ Add Event
 </div>
 
 <script type="module" src="admin.js"></script>
-
-<script>
-
-document.getElementById("date").innerHTML =
-new Date().toDateString();
-
-</script>
 
 </body>
 </html>
