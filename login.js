@@ -37,13 +37,24 @@ loginForm.addEventListener("submit", async (e) => {
 
       let isAdmin = false;
 
-      snapshot.forEach((doc) => {
+      const snapshot = await getDocs(collection(db, "admins"));
 
-        if (doc.data().email === email) {
-          isAdmin = true;
-        }
+console.log("Total Admins:", snapshot.size);
 
-      });
+let isAdmin = false;
+
+snapshot.forEach((doc) => {
+    console.log(doc.data());
+
+    if (
+        doc.data().email.trim().toLowerCase() ===
+        email.trim().toLowerCase()
+    ) {
+        isAdmin = true;
+    }
+});
+
+console.log("Is Admin =", isAdmin);
 
       if (isAdmin) {
 
