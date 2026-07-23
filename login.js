@@ -50,6 +50,8 @@ snapshot.forEach((doc) => {
     }
 });
 
+console.log("Admin Found:", isAdmin);
+
       if (isAdmin) {
         window.location.href = "admin.html";
       } else {
