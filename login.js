@@ -16,63 +16,46 @@ const loginForm = document.getElementById("loginForm");
 const errorMsg = document.getElementById("errorMsg");
 
 loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  errorMsg.innerText = "";
 
-    e.preventDefault();
+  const email = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const role = document.getElementById("role").value;
 
-    errorMsg.innerText = "";
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    await signInWithEmailAndPassword(auth, email, password);
 
-    const email = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const role = document.getElementById("role").value;
-
-    try {
-
-        await setPersistence(auth, browserLocalPersistence);
-
-        await signInWithEmailAndPassword(auth, email, password);
-
-        if (role === "student") {
-
-            window.location.href = "sos.html";
-            return;
-
-        }
-
-        if (role === "admin") {
-
-            const q = query(
-    collection(db, "admins"),
-    where("email", "==", email)
-);
-
-const snapshot = await getDocs(q);
-
-if (!snapshot.empty) {
-    location.replace("admin.html");
-} else {
-    await signOut(auth);
-    errorMsg.innerText = "Access Denied! You are not an Admin.";
-}
-            if (isAdmin) {
-
-                window.location.href = "admin.html";
-
-            } else {
-
-                await signOut(auth);
-
-                errorMsg.innerText = "Access Denied! You are not an Admin.";
-
-            }
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        errorMsg.innerText = error.message;
-
+    if (role === "student") {
+      window.location.href = "sos.html";
+      return;
     }
 
+    if (role === "admin") {
+      const snapshot = await getDocs(collection(db, "admins"));
+
+      let isAdmin = false;
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (
+          data.email &&
+          data.email.trim().toLowerCase() === email.trim().toLowerCase()
+        ) {
+          isAdmin = true;
+        }
+      });
+
+      if (isAdmin) {
+        window.location.href = "admin.html";
+      } else {
+        await signOut(auth);
+        errorMsg.innerText = "Access Denied! You are not an Admin.";
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    errorMsg.innerText = error.message;
+  }
 });
