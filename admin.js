@@ -7,43 +7,60 @@ import {
 
 import {
   collection,
-  getDocs,
-  addDoc,
-  query,
-  orderBy,
-  limit
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-
-
+// Check Admin Access
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
-    location.replace("index.html");
+    window.location.replace("index.html");
     return;
   }
 
-  const snapshot = await getDocs(collection(db, "admins"));
+  try {
 
-  let isAdmin = false;
+    const snapshot = await getDocs(collection(db, "admins"));
 
-  snapshot.forEach((doc) => {
-    if (doc.data().email === user.email) {
-      isAdmin = true;
+    let isAdmin = false;
+
+    snapshot.forEach((doc) => {
+
+      const data = doc.data();
+
+      if (
+        data.email &&
+        data.email.trim().toLowerCase() ===
+        user.email.trim().toLowerCase()
+      ) {
+        isAdmin = true;
+      }
+
+    });
+
+    if (!isAdmin) {
+      alert("Access Denied! You are not an Admin.");
+      await signOut(auth);
+      window.location.replace("index.html");
+      return;
     }
-  });
 
-  if (!isAdmin) {
-    alert("Access Denied");
-    location.replace("sos.html");
+    // Load Dashboard after successful admin verification
+    loadDashboard();
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
   }
 
 });
 
 
+// Dashboard Data
 async function loadDashboard() {
+
   try {
+
     const students = await getDocs(collection(db, "students"));
     document.getElementById("studentCount").innerText = students.size;
 
@@ -55,11 +72,10 @@ async function loadDashboard() {
 
     const notices = await getDocs(collection(db, "notices"));
     document.getElementById("noticeCount").innerText = notices.size;
+
   } catch (error) {
     console.error(error);
     alert(error.message);
   }
 
 }
-
-loadDashboard();
