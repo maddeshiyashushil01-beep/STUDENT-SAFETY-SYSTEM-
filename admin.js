@@ -59,7 +59,7 @@ async function loadDashboard() {
     console.error(error);
     alert(error.message);
   }
-window.location.href = "index.html";
+
 }
 
 loadDashboard();
