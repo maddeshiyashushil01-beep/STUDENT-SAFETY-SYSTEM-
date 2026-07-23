@@ -36,16 +36,19 @@ loginForm.addEventListener("submit", async (e) => {
       const snapshot = await getDocs(collection(db, "admins"));
 
       let isAdmin = false;
+snapshot.forEach((doc) => {
+    const data = doc.data();
 
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        if (
-          data.email &&
-          data.email.trim().toLowerCase() === email.trim().toLowerCase()
-        ) {
-          isAdmin = true;
-        }
-      });
+    console.log("Firestore Email:", data.email);
+    console.log("Login Email:", email);
+
+    if (
+        data.email &&
+        data.email.toLowerCase() === email.toLowerCase()
+    ) {
+        isAdmin = true;
+    }
+});
 
       if (isAdmin) {
         window.location.href = "admin.html";
