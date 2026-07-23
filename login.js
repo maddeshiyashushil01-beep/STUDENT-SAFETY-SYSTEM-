@@ -40,24 +40,19 @@ loginForm.addEventListener("submit", async (e) => {
 
         if (role === "admin") {
 
-            const snapshot = await getDocs(collection(db, "admins"));
+            const q = query(
+    collection(db, "admins"),
+    where("email", "==", email)
+);
 
-            let isAdmin = false;
+const snapshot = await getDocs(q);
 
-            snapshot.forEach((doc) => {
-
-                const data = doc.data();
-
-                if (
-                    data.email &&
-                    data.email.toLowerCase().trim() ===
-                    email.toLowerCase().trim()
-                ) {
-                    isAdmin = true;
-                }
-
-            });
-
+if (!snapshot.empty) {
+    location.replace("admin.html");
+} else {
+    await signOut(auth);
+    errorMsg.innerText = "Access Denied! You are not an Admin.";
+}
             if (isAdmin) {
 
                 window.location.href = "admin.html";
