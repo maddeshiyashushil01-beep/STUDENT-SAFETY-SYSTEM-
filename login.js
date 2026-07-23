@@ -16,7 +16,6 @@ const loginForm = document.getElementById("loginForm");
 const errorMsg = document.getElementById("errorMsg");
 
 loginForm.addEventListener("submit", async (e) => {
-
   e.preventDefault();
 
   errorMsg.innerText = "";
@@ -26,7 +25,6 @@ loginForm.addEventListener("submit", async (e) => {
   const role = document.getElementById("role").value;
 
   try {
-
     await setPersistence(auth, browserLocalPersistence);
 
     await signInWithEmailAndPassword(auth, email, password);
@@ -35,52 +33,38 @@ loginForm.addEventListener("submit", async (e) => {
 
       const snapshot = await getDocs(collection(db, "admins"));
 
+      console.log("Total Admins:", snapshot.size);
+
       let isAdmin = false;
 
-      const snapshot = await getDocs(collection(db, "admins"));
+      snapshot.forEach((doc) => {
+        console.log(doc.data());
 
-console.log("Total Admins:", snapshot.size);
+        if (
+          doc.data().email.trim().toLowerCase() ===
+          email.toLowerCase()
+        ) {
+          isAdmin = true;
+        }
+      });
 
-let isAdmin = false;
-
-snapshot.forEach((doc) => {
-    console.log(doc.data());
-
-    if (
-        doc.data().email.trim().toLowerCase() ===
-        email.trim().toLowerCase()
-    ) {
-        isAdmin = true;
-    }
-});
-
-console.log("Is Admin =", isAdmin);
+      console.log("Is Admin =", isAdmin);
 
       if (isAdmin) {
-
         alert("Admin Login Successful");
         location.replace("admin.html");
-
       } else {
-
         await signOut(auth);
         alert("Access Denied! You are not an Admin.");
-        location.replace("index.html");
-
       }
 
     } else {
-
       alert("Student Login Successful");
       location.replace("sos.html");
-
     }
 
   } catch (error) {
-
     console.error(error);
     errorMsg.innerText = error.message;
-
   }
-
 });
