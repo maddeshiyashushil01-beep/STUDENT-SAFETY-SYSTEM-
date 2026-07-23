@@ -38,15 +38,19 @@ loginForm.addEventListener("submit", async (e) => {
       let isAdmin = false;
 
       snapshot.forEach((doc) => {
-        console.log(doc.data());
 
-        if (
-          doc.data().email.trim().toLowerCase() ===
-          email.toLowerCase()
-        ) {
-          isAdmin = true;
-        }
-      });
+    const data = doc.data();
+
+    console.log(data);
+
+    if (
+        data.email &&
+        data.email.toLowerCase() === email.toLowerCase()
+    ) {
+        isAdmin = true;
+    }
+
+});
 
       console.log("Is Admin =", isAdmin);
 
