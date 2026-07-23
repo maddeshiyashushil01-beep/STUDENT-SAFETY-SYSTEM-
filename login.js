@@ -68,8 +68,11 @@ loginForm.addEventListener("submit", async (e) => {
     }
 } catch (error) {
 
+  alert(error.message);
+
+  alert(error.stack);
+
   console.error(error);
-  console.error(error.stack);
 
   errorMsg.innerText = error.message;
 
