@@ -66,9 +66,11 @@ loginForm.addEventListener("submit", async (e) => {
       alert("Student Login Successful");
       location.replace("sos.html");
     }
+} catch (error) {
 
-  } catch (error) {
-    console.error(error);
-    errorMsg.innerText = error.message;
-  }
-});
+  console.error(error);
+  console.error(error.stack);
+
+  errorMsg.innerText = error.message;
+
+}
