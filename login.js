@@ -16,64 +16,68 @@ const loginForm = document.getElementById("loginForm");
 const errorMsg = document.getElementById("errorMsg");
 
 loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  errorMsg.innerText = "";
+    e.preventDefault();
 
-  const email = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const role = document.getElementById("role").value;
+    errorMsg.innerText = "";
 
-  try {
-    await setPersistence(auth, browserLocalPersistence);
+    const email = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
 
-    await signInWithEmailAndPassword(auth, email, password);
+    try {
 
-    if (role === "admin") {
+        await setPersistence(auth, browserLocalPersistence);
 
-      const snapshot = await getDocs(collection(db, "admins"));
+        await signInWithEmailAndPassword(auth, email, password);
 
-      console.log("Total Admins:", snapshot.size);
+        if (role === "student") {
 
-      let isAdmin = false;
+            window.location.href = "sos.html";
+            return;
 
-      snapshot.forEach((doc) => {
+        }
 
-    const data = doc.data();
+        if (role === "admin") {
 
-    console.log(data);
+            const snapshot = await getDocs(collection(db, "admins"));
 
-    if (
-        data.email &&
-        data.email.toLowerCase() === email.toLowerCase()
-    ) {
-        isAdmin = true;
+            let isAdmin = false;
+
+            snapshot.forEach((doc) => {
+
+                const data = doc.data();
+
+                if (
+                    data.email &&
+                    data.email.toLowerCase().trim() ===
+                    email.toLowerCase().trim()
+                ) {
+                    isAdmin = true;
+                }
+
+            });
+
+            if (isAdmin) {
+
+                window.location.href = "admin.html";
+
+            } else {
+
+                await signOut(auth);
+
+                errorMsg.innerText = "Access Denied! You are not an Admin.";
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        errorMsg.innerText = error.message;
+
     }
 
 });
-
-      console.log("Is Admin =", isAdmin);
-
-      if (isAdmin) {
-        alert("Admin Login Successful");
-        location.replace("admin.html");
-      } else {
-        await signOut(auth);
-        alert("Access Denied! You are not an Admin.");
-      }
-
-    } else {
-      alert("Student Login Successful");
-      location.replace("sos.html");
-    }
-} catch (error) {
-
-  alert(error.message);
-
-  alert(error.stack);
-
-  console.error(error);
-
-  errorMsg.innerText = error.message;
-
-}
