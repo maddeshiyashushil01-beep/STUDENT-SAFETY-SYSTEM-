@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Profile</title>
+
+<link rel="stylesheet" href="profile.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="profile-card">
+
+<div class="top-section">
+
+<label for="photo">
+
+<img id="profilePreview"
+src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+<input
+type="file"
+id="photo"
+accept="image/*"
+hidden>
+
+</label>
+
+<h2>Student Profile</h2>
+
+<p>Hostel Guard Safety System</p>
+
+</div>
+
+<div class="form">
+
+<div class="input-box">
+<label>Full Name</label>
+<input type="text" id="name">
+</div>
+
+<div class="input-box">
+<label>Enrollment Number</label>
+<input type="text" id="enrollment">
+</div>
+
+<div class="input-box">
+<label>College</label>
+<input type="text" id="college">
+</div>
+
+<div class="input-box">
+<label>Branch</label>
+<input type="text" id="branch">
+</div>
+
+<div class="input-box">
+<label>Semester</label>
+<input type="text" id="semester">
+</div>
+
+<div class="input-box">
+<label>Hostel Name</label>
+<input type="text" id="hostel">
+</div>
+
+<div class="input-box">
+<label>Room Number</label>
+<input type="text" id="room">
+</div>
+
+<div class="input-box">
+<label>Mobile Number</label>
+<input type="tel" id="mobile">
+</div>
+
+<div class="input-box">
+<label>Father Name</label>
+<input type="text" id="father">
+</div>
+
+<div class="input-box">
+<label>Mother Name</label>
+<input type="text" id="mother">
+</div>
+
+<div class="input-box">
+<label>Parent Mobile</label>
+<input type="tel" id="parentMobile">
+</div>
+
+<div class="input-box">
+<label>Blood Group</label>
+
+<select id="blood">
+
+<option value="">Select</option>
+
+<option>A+</option>
+<option>A-</option>
+<option>B+</option>
+<option>B-</option>
+<option>AB+</option>
+<option>AB-</option>
+<option>O+</option>
+<option>O-</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+<label>Emergency Contact</label>
+<input type="tel" id="emergency">
+</div>
+
+<button id="saveBtn">
+<i class="fas fa-floppy-disk"></i>
+Save Profile
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="profile.js"></script>
+
+</body>
+</html>
