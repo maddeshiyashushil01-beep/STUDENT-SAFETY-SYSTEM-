@@ -105,6 +105,11 @@ saveBtn.addEventListener("click", async () => {
 
     });
 
+function goBack() {
+    window.location.href = "sos.html";
+}
+
+
     alert("✅ Profile Saved Successfully");
 
   } catch (error) {
@@ -115,3 +120,4 @@ saveBtn.addEventListener("click", async () => {
   }
 
 });
+
