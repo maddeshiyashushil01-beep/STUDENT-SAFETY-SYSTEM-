@@ -278,3 +278,29 @@ transition:.3s;
 .profile-btn:hover{
 background:#0d47a1;
 }
+
+
+.profile-header{
+    text-align:center;
+    padding:20px;
+    background:linear-gradient(135deg,#1976d2,#42a5f5);
+    color:white;
+}
+
+.profile-header img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:3px solid white;
+    object-fit:cover;
+    margin-bottom:10px;
+}
+
+.profile-header h3{
+    margin:5px 0;
+    font-size:18px;
+}
+
+.profile-header h1{
+    margin-top:10px;
+}
