@@ -258,3 +258,23 @@ color:#1565C0;
 word-wrap:break-word;
 
 }
+
+.profile-btn{
+display:block;
+width:90%;
+max-width:320px;
+margin:20px auto;
+padding:15px;
+background:#1976d2;
+color:#fff;
+text-align:center;
+text-decoration:none;
+font-size:18px;
+font-weight:bold;
+border-radius:12px;
+transition:.3s;
+}
+
+.profile-btn:hover{
+background:#0d47a1;
+}
