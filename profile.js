@@ -79,7 +79,6 @@ async function loadProfile() {
   }
 
 }
-
 // Save Profile
 saveBtn.addEventListener("click", async () => {
 
@@ -87,30 +86,28 @@ saveBtn.addEventListener("click", async () => {
 
     await setDoc(doc(db, "profiles", currentUser.uid), {
 
-      name: document.getElementById("name").value,
-      enrollment: document.getElementById("enrollment").value,
-      college: document.getElementById("college").value,
-      branch: document.getElementById("branch").value,
-      semester: document.getElementById("semester").value,
-      hostel: document.getElementById("hostel").value,
-      room: document.getElementById("room").value,
-      mobile: document.getElementById("mobile").value,
-      father: document.getElementById("father").value,
-      mother: document.getElementById("mother").value,
-      parentMobile: document.getElementById("parentMobile").value,
+      name: document.getElementById("name").value.trim(),
+      enrollment: document.getElementById("enrollment").value.trim(),
+      college: document.getElementById("college").value.trim(),
+      branch: document.getElementById("branch").value.trim(),
+      semester: document.getElementById("semester").value.trim(),
+      hostel: document.getElementById("hostel").value.trim(),
+      room: document.getElementById("room").value.trim(),
+      mobile: document.getElementById("mobile").value.trim(),
+      father: document.getElementById("father").value.trim(),
+      mother: document.getElementById("mother").value.trim(),
+      parentMobile: document.getElementById("parentMobile").value.trim(),
       blood: document.getElementById("blood").value,
-      emergency: document.getElementById("emergency").value,
+      emergency: document.getElementById("emergency").value.trim(),
       photo: preview.src,
       email: currentUser.email
 
     });
 
-function goBack() {
-    window.location.href = "sos.html";
-}
-
-
     alert("✅ Profile Saved Successfully");
+
+    // Go back to SOS page
+    window.location.href = "sos.html";
 
   } catch (error) {
 
@@ -120,4 +117,3 @@ function goBack() {
   }
 
 });
-
