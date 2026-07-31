@@ -1,5 +1,3 @@
-alert("login.js loaded");
-console.log("login.js loaded");
 import { auth, db } from "./firebase.js";
 
 import {
@@ -18,56 +16,69 @@ const loginForm = document.getElementById("loginForm");
 const errorMsg = document.getElementById("errorMsg");
 
 loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  errorMsg.innerText = "";
 
-  const email = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const role = document.getElementById("role").value;
+    e.preventDefault();
 
-  try {
-    await setPersistence(auth, browserLocalPersistence);
-    await signInWithEmailAndPassword(auth, email, password);
+    errorMsg.innerText = "";
 
-    if (role === "student") {
-      window.location.href = "sos.html";
-      return;
-    }
-if (role === "admin") {
+    const email = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
 
-    const snapshot = await getDocs(collection(db, "admins"));
+    try {
 
-    let isAdmin = false;
+        await setPersistence(auth, browserLocalPersistence);
 
-    snapshot.forEach((adminDoc) => {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-        const admin = adminDoc.data();
+        const user = userCredential.user;
 
-        if (
-            admin.email &&
-            admin.email.trim().toLowerCase() ===
-            auth.currentUser.email.trim().toLowerCase()
-        ) {
-            isAdmin = true;
+        if (role === "student") {
+            window.location.href = "sos.html";
+            return;
         }
 
-    });
+        const snapshot = await getDocs(collection(db, "admins"));
 
-    if (isAdmin) {
+        let isAdmin = false;
 
-        window.location.href = "admin.html";
+        snapshot.forEach((doc) => {
 
-    } else {
+            const data = doc.data();
 
-        await signOut(auth);
+            if (
+                data.email &&
+                data.email.trim().toLowerCase() ===
+                user.email.trim().toLowerCase()
+            ) {
+                isAdmin = true;
+            }
 
-        errorMsg.innerText = "Access Denied! You are not an Admin.";
+        });
+
+        if (isAdmin) {
+
+            window.location.href = "admin.html";
+
+        } else {
+
+            await signOut(auth);
+
+            errorMsg.innerText = "Access Denied! You are not an Admin.";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        errorMsg.innerText =
+            error.code + " : " + error.message;
 
     }
 
-}
-  } catch (error) {
-    console.error(error);
-    errorMsg.innerText = error.message;
-  }
 });
