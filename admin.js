@@ -25,16 +25,21 @@ onAuthStateChanged(auth, async (user) => {
 let isAdmin = false;
 
 snapshot.forEach((adminDoc) => {
+
     const admin = adminDoc.data();
 
-    console.log("Admin Email:", admin.email);
-    console.log("User Email:", user.email);
+    console.log("Firestore admin:", admin.email);
+    console.log("Logged in user:", user.email);
 
-    if (admin.email === user.email) {
+    if (
+        admin.email &&
+        admin.email.trim().toLowerCase() ===
+        user.email.trim().toLowerCase()
+    ) {
         isAdmin = true;
     }
-});
 
+});
     if (!isAdmin) {
       alert("Access Denied! You are not an Admin.");
       await signOut(auth);
