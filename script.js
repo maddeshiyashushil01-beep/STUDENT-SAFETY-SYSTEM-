@@ -30,8 +30,12 @@ onAuthStateChanged(auth, async (user) => {
 
   currentUser = user;
 
-  // Load saved contact automatically
-  await loadContact();
+// Load saved contact
+await loadContact();
+
+// Load student profile
+await loadStudentProfile();
+
 
 });
 
