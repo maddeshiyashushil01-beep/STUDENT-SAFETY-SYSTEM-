@@ -1,3 +1,5 @@
+
+console.log("login.js loaded");
 import { auth, db } from "./firebase.js";
 
 import {
