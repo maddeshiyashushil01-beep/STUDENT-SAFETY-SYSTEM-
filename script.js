@@ -1,10 +1,4 @@
 
-import { auth, db } from "./firebase.js";
-
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 
 import { auth, db } from "./firebase.js";
@@ -321,11 +315,11 @@ onAuthStateChanged(auth, async (user) => {
 
         const data = profileSnap.data();
 
-        document.getElementById("studentName").innerText = data.name;
+        document.getElementById("studentName").innerText =
+data.fullName || data.name;
 
-        if (data.photo) {
-            document.getElementById("studentPhoto").src = data.photo;
-        }
+document.getElementById("studentPhoto").src =
+data.photoURL || data.photo;
 
     }
 
