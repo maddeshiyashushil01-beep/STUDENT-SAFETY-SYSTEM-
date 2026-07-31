@@ -309,3 +309,24 @@ async function logout() {
 }
 
 window.logout = logout;
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) return;
+
+    const profileRef = doc(db, "profiles", user.uid);
+    const profileSnap = await getDoc(profileRef);
+
+    if (profileSnap.exists()) {
+
+        const data = profileSnap.data();
+
+        document.getElementById("studentName").innerText = data.name;
+
+        if (data.photo) {
+            document.getElementById("studentPhoto").src = data.photo;
+        }
+
+    }
+
+});
