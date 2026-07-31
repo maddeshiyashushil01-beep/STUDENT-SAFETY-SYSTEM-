@@ -1,4 +1,4 @@
-
+alert("login.js loaded");
 console.log("login.js loaded");
 import { auth, db } from "./firebase.js";
 
