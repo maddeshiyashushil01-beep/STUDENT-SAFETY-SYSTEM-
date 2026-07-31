@@ -22,21 +22,18 @@ onAuthStateChanged(auth, async (user) => {
 
     const snapshot = await getDocs(collection(db, "admins"));
 
-    let isAdmin = false;
+let isAdmin = false;
 
-    snapshot.forEach((doc) => {
+snapshot.forEach((adminDoc) => {
+    const admin = adminDoc.data();
 
-      const data = doc.data();
+    console.log("Admin Email:", admin.email);
+    console.log("User Email:", user.email);
 
-      if (
-        data.email &&
-        data.email.trim().toLowerCase() ===
-        user.email.trim().toLowerCase()
-      ) {
+    if (admin.email === user.email) {
         isAdmin = true;
-      }
-
-    });
+    }
+});
 
     if (!isAdmin) {
       alert("Access Denied! You are not an Admin.");
