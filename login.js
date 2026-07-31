@@ -31,34 +31,39 @@ loginForm.addEventListener("submit", async (e) => {
       window.location.href = "sos.html";
       return;
     }
+if (role === "admin") {
 
-    if (role === "admin") {
-      const snapshot = await getDocs(collection(db, "admins"));
+    const snapshot = await getDocs(collection(db, "admins"));
 
-      let isAdmin = false;
-snapshot.forEach((doc) => {
-    const data = doc.data();
+    let isAdmin = false;
 
-    console.log("Firestore Email:", data.email);
-    console.log("Login Email:", email);
+    snapshot.forEach((adminDoc) => {
 
-    if (
-        data.email &&
-        data.email.toLowerCase() === email.toLowerCase()
-    ) {
-        isAdmin = true;
-    }
-});
+        const admin = adminDoc.data();
 
-console.log("Admin Found:", isAdmin);
+        if (
+            admin.email &&
+            admin.email.trim().toLowerCase() ===
+            auth.currentUser.email.trim().toLowerCase()
+        ) {
+            isAdmin = true;
+        }
 
-      if (isAdmin) {
+    });
+
+    if (isAdmin) {
+
         window.location.href = "admin.html";
-      } else {
+
+    } else {
+
         await signOut(auth);
+
         errorMsg.innerText = "Access Denied! You are not an Admin.";
-      }
+
     }
+
+}
   } catch (error) {
     console.error(error);
     errorMsg.innerText = error.message;
