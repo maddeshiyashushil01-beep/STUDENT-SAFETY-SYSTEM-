@@ -285,6 +285,38 @@ Need Help Immediately`;
 
 });
 
+
+
+async function loadStudentProfile() {
+
+    try {
+
+        const profileRef = doc(db, "profiles", currentUser.uid);
+        const profileSnap = await getDoc(profileRef);
+
+        if (!profileSnap.exists()) return;
+
+        const data = profileSnap.data();
+
+        document.getElementById("studentName").innerText =
+            data.fullName || data.name || "Student";
+
+        document.getElementById("studentPhoto").src =
+            data.photoURL || data.photo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+}
+
+
+
+
+
+
 // ===============================
 // LOGOUT
 // ===============================
@@ -308,23 +340,3 @@ async function logout() {
 
 window.logout = logout;
 
-onAuthStateChanged(auth, async (user) => {
-
-    if (!user) return;
-
-    const profileRef = doc(db, "profiles", user.uid);
-    const profileSnap = await getDoc(profileRef);
-
-    if (profileSnap.exists()) {
-
-        const data = profileSnap.data();
-
-        document.getElementById("studentName").innerText =
-data.fullName || data.name;
-
-document.getElementById("studentPhoto").src =
-data.photoURL || data.photo;
-
-    }
-
-});
