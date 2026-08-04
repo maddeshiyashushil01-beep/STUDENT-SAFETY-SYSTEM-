@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital Locker</title>
+
+<link rel="stylesheet" href="locker.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<button class="back-btn"
+onclick="window.location.href='sos.html'">
+
+← Back
+
+</button>
+
+<h1>📂 My Digital Locker</h1>
+
+<p>Store your important documents safely.</p>
+
+</div>
+
+<div class="upload-box">
+
+<input type="file" id="fileInput">
+
+<select id="category">
+
+<option value="Marksheet">📄 Marksheet</option>
+
+<option value="Certificate">🏆 Certificate</option>
+
+<option value="ID Card">🪪 ID Card</option>
+
+<option value="Resume">💼 Resume</option>
+
+<option value="Project">💻 Project</option>
+
+<option value="Study Material">📚 Study Material</option>
+
+<option value="Other">📁 Other</option>
+
+</select>
+
+<button id="uploadBtn">
+
+⬆ Upload File
+
+</button>
+
+</div>
+
+<div class="documents">
+
+<h2>📁 My Documents</h2>
+
+<div id="documentList">
+
+<p>No documents uploaded yet.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="locker.js"></script>
+
+</body>
+</html>
