@@ -1,184 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Student Safety Dashboard</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="style.css">
+    <title>Student Safety Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet"
+    >
 </head>
 
 <body>
 
 <div class="container">
-<div class="profile-header" onclick="window.location.href='profile.html'">
 
-    <img id="studentPhoto"
-         src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-         alt="Student">
+    <!-- ================================
+         PROFILE HEADER
+    ================================= -->
 
-    <h3 id="studentName">Student</h3>
+    <div
+        class="profile-header"
+        onclick="window.location.href='profile.html'"
+    >
 
-    <h1>Hostel Guard</h1>
+        <img
+            id="studentPhoto"
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            alt="Student"
+        >
 
-    <p>Student Safety System</p>
+        <h3 id="studentName">
+            Student
+        </h3>
 
-</div>
+        <h1>
+            Hostel Guard
+        </h1>
 
+        <p>
+            Student Safety System
+        </p>
 
-<div class="card">
-
-<h2>👨 Emergency Contact</h2>
-
-<input
-type="text"
-id="contactName"
-placeholder="Parent / Guardian Name">
-
-<input
-type="text"
-id="contactNumber"
-placeholder="Phone Number">
-
-<button class="blue-btn" onclick="saveContact()">
-💾 Save Contact
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🚨 Emergency Type</h2>
-
-<div class="radio-grid">
-
-<label>
-<input type="radio"
-name="emergencyType"
-value="Medical Emergency"
-checked>
-
-❤️ Medical
-</label>
-
-<label>
-<input type="radio"
-name="emergencyType"
-value="Safety Threat">
-
-🛑 Threat
-</label>
-
-<label>
-<input type="radio"
-name="emergencyType"
-value="Accident">
-
-🚑 Accident
-</label>
-
-<label>
-<input type="radio"
-name="emergencyType"
-value="Theft">
-
-🔒 Theft
-</label>
-
-</div>
-
-</div>
-
-
-
-<div class="sos-box">
-
-<button
-id="sosBtn"
-class="sos-btn">
-
-SOS
-
-</button>
-
-<p>Tap only during emergency</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>📝 Complaint</h2>
-
-<textarea
-id="complaint"
-placeholder="Write your complaint here..."></textarea>
-
-<button
-class="blue-btn"
-onclick="submitComplaint()">
-
-Submit Complaint
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>📍 Live Location</h2>
-
-<button
-class="blue-btn"
-onclick="getLocation()">
-
-Share Location
-
-</button>
-
-<p id="location"></p>
-
-</div>
-
-
-<button
-class="logout-btn"
-onclick="logout()">
-
-Logout
-
-</button>
-<a href="profile.html" class="profile-btn">
-    👤 My Profile
-</a>
-
-<a href="locker.html" class="locker-btn">
-    📂 Digital Locker
-</a>
-
-</div>
-
-<script type="module" src="script.js"></script>
-
-<div class="resume-builder-card">
-    <div class="resume-icon">📄</div>
-
-    <div class="resume-content">
-        <h3>Resume Builder</h3>
-        <p>Create a professional resume for internships & jobs</p>
     </div>
 
-    <a href="resume.html" class="resume-btn">
-        Build Resume →
+
+    <!-- ================================
+         EMERGENCY CONTACT
+    ================================= -->
+
+    <div class="card">
+
+        <h2>
+            👨 Emergency Contact
+        </h2>
+
+        <input
+            type="text"
+            id="contactName"
+            placeholder="Parent / Guardian Name"
+        >
+
+        <input
+            type="text"
+            id="contactNumber"
+            placeholder="Phone Number"
+            inputmode="tel"
+        >
+
+        <button
+            class="blue-btn"
+            onclick="saveContact()"
+        >
+            💾 Save Contact
+        </button>
+
+    </div>
+
+
+    <!-- ================================
+         EMERGENCY TYPE
+    ================================= -->
+
+    <div class="card">
+
+        <h2>
+            🚨 Emergency Type
+        </h2>
+
+        <div class="radio-grid">
+
+            <label>
+                <input
+                    type="radio"
+                    name="emergencyType"
+                    value="Medical Emergency"
+                    checked
+                >
+
+                ❤️ Medical
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="emergencyType"
+                    value="Safety Threat"
+                >
+
+                🛑 Threat
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="emergencyType"
+                    value="Accident"
+                >
+
+                🚑 Accident
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="emergencyType"
+                    value="Theft"
+                >
+
+                🔒 Theft
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         SOS BUTTON
+    ================================= -->
+
+    <div class="sos-box">
+
+        <button
+            id="sosBtn"
+            class="sos-btn"
+        >
+            SOS
+        </button>
+
+        <p>
+            Tap only during emergency
+        </p>
+
+    </div>
+
+
+    <!-- ================================
+         COMPLAINT
+    ================================= -->
+
+    <div class="card">
+
+        <h2>
+            📝 Complaint
+        </h2>
+
+        <textarea
+            id="complaint"
+            placeholder="Write your complaint here..."
+        ></textarea>
+
+        <button
+            class="blue-btn"
+            onclick="submitComplaint()"
+        >
+            Submit Complaint
+        </button>
+
+    </div>
+
+
+    <!-- ================================
+         LIVE LOCATION
+    ================================= -->
+
+    <div class="card">
+
+        <h2>
+            📍 Live Location
+        </h2>
+
+        <button
+            class="blue-btn"
+            onclick="getLocation()"
+        >
+            Share Location
+        </button>
+
+        <p id="location"></p>
+
+    </div>
+
+
+    <!-- ================================
+         ACCOUNT BUTTONS
+    ================================= -->
+
+    <button
+        class="logout-btn"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+
+    <a
+        href="profile.html"
+        class="profile-btn"
+    >
+        👤 My Profile
     </a>
+
+
+    <!-- ================================
+         DIGITAL LOCKER
+    ================================= -->
+
+    <a
+        href="locker.html"
+        class="locker-btn"
+    >
+        📂 Digital Locker
+    </a>
+
+
+    <!-- ================================
+         RESUME BUILDER
+    ================================= -->
+
+    <div class="resume-builder-card">
+
+        <div class="resume-icon">
+            📄
+        </div>
+
+
+        <div class="resume-content">
+
+            <h3>
+                Resume Builder
+            </h3>
+
+            <p>
+                Create a professional resume
+                for internships & jobs.
+            </p>
+
+        </div>
+
+
+        <a
+            href="resume.html"
+            class="resume-btn"
+        >
+            Build Resume →
+        </a>
+
+    </div>
+
+
 </div>
+
+
+<!-- ================================
+     JAVASCRIPT
+================================= -->
+
+<script
+    type="module"
+    src="script.js"
+></script>
 
 
 </body>
+
 </html>
