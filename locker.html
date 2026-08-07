@@ -1,25 +1,255 @@
-<div class="upload-box">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Select file -->
-    <input type="file" id="fileInput">
+    <title>My Digital Locker</title>
 
-    <!-- Select category -->
-    <select id="category">
-        <option value="Marksheet">📄 Marksheet</option>
-        <option value="Certificate">🏆 Certificate</option>
-        <option value="ID Card">🪪 ID Card</option>
-        <option value="Resume">💼 Resume</option>
-        <option value="Project">💻 Project</option>
-        <option value="Study Material">📚 Study Material</option>
-        <option value="Other">📁 Other</option>
-    </select>
+    <link rel="stylesheet" href="locker.css">
 
-    <!-- ONE upload button only -->
-    <button id="uploadBtn">
-        ⬆ Upload Document
-    </button>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
 
-    <!-- Upload status -->
-    <p id="uploadStatus"></p>
+<body>
+
+<div class="locker-app">
+
+    <!-- Header -->
+    <header class="topbar">
+
+        <button class="back-btn" onclick="window.location.href='sos.html'">
+            <span>←</span>
+            Back
+        </button>
+
+        <div class="brand">
+            <div class="brand-icon">🔐</div>
+
+            <div>
+                <h1>Digital Locker</h1>
+                <p>Your secure document space</p>
+            </div>
+        </div>
+
+    </header>
+
+
+    <main class="main-content">
+
+        <!-- Welcome section -->
+        <section class="welcome">
+
+            <div>
+                <span class="welcome-label">MY DOCUMENTS</span>
+
+                <h2>
+                    Keep your important files
+                    <span>safe & organized.</span>
+                </h2>
+
+                <p>
+                    Upload marksheets, certificates, IDs and other
+                    important documents in one place.
+                </p>
+            </div>
+
+            <div class="security-badge">
+                <span>🛡️</span>
+                <small>Secure<br>Storage</small>
+            </div>
+
+        </section>
+
+
+        <!-- Upload card -->
+        <section class="upload-card">
+
+            <div class="card-heading">
+
+                <div class="heading-icon">
+                    ☁️
+                </div>
+
+                <div>
+                    <h3>Upload Document</h3>
+                    <p>Add a new document to your locker</p>
+                </div>
+
+            </div>
+
+
+            <!-- File selection -->
+            <label class="file-area" for="fileInput">
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <div class="file-text">
+                    <strong id="fileName">
+                        Choose a file
+                    </strong>
+
+                    <span>
+                        PDF, JPG, PNG or other supported files
+                    </span>
+                </div>
+
+                <div class="browse-btn">
+                    Browse
+                </div>
+
+            </label>
+
+            <input
+                type="file"
+                id="fileInput"
+                hidden
+            >
+
+
+            <!-- Category -->
+            <div class="form-group">
+
+                <label for="category">
+                    Document category
+                </label>
+
+                <div class="select-wrapper">
+
+                    <span>📁</span>
+
+                    <select id="category">
+
+                        <option value="Marksheet">
+                            Marksheet
+                        </option>
+
+                        <option value="Certificate">
+                            Certificate
+                        </option>
+
+                        <option value="ID Card">
+                            ID Card
+                        </option>
+
+                        <option value="Resume">
+                            Resume
+                        </option>
+
+                        <option value="Project">
+                            Project
+                        </option>
+
+                        <option value="Study Material">
+                            Study Material
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Upload button -->
+            <button
+                id="uploadBtn"
+                class="upload-btn"
+            >
+                <span>↑</span>
+                Upload Document
+            </button>
+
+
+            <!-- Status -->
+            <p id="uploadStatus" class="upload-status"></p>
+
+
+            <div class="upload-info">
+                🔒 Your files are uploaded securely.
+            </div>
+
+        </section>
+
+
+        <!-- Documents -->
+        <section class="documents-section">
+
+            <div class="documents-heading">
+
+                <div>
+                    <h3>📂 My Documents</h3>
+                    <p>Your uploaded files will appear here.</p>
+                </div>
+
+                <span class="document-count">
+                    0 Files
+                </span>
+
+            </div>
+
+
+            <div id="documentList" class="document-list">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📄
+                    </div>
+
+                    <h4>No documents yet</h4>
+
+                    <p>
+                        Upload your first document and it
+                        will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>🔐 My Digital Locker</p>
+        <span>Private • Secure • Organized</span>
+    </footer>
 
 </div>
+
+
+<script type="module" src="locker.js"></script>
+
+<script>
+    // Show selected filename
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+
+    fileInput.addEventListener("change", () => {
+
+        if (fileInput.files.length > 0) {
+
+            fileName.textContent =
+                fileInput.files[0].name;
+
+        } else {
+
+            fileName.textContent =
+                "Choose a file";
+
+        }
+
+    });
+</script>
+
+</body>
+</html>
