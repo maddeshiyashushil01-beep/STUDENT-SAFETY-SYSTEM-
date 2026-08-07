@@ -1,0 +1,610 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+
+/* ================= HEADER ================= */
+
+.topbar {
+    height: 76px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e9f2;
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    padding: 0 30px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-btn {
+    border: none;
+    background: #f1f5f9;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    color: #334155;
+}
+
+.back-btn:hover {
+    background: #e2e8f0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+
+    background: #eef4ff;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+}
+
+.brand h1 {
+    font-size: 20px;
+}
+
+.brand p {
+    font-size: 12px;
+    color: #7a8497;
+    margin-top: 3px;
+}
+
+
+/* ================= MAIN ================= */
+
+.main-container {
+    max-width: 1500px;
+    margin: auto;
+
+    padding: 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(420px, 0.9fr)
+        minmax(500px, 1.1fr);
+
+    gap: 30px;
+}
+
+
+/* ================= EDITOR ================= */
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.section-title {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.section-title > span {
+    font-size: 28px;
+}
+
+.section-title h2 {
+    font-size: 21px;
+}
+
+.section-title p {
+    font-size: 12px;
+    color: #7a8497;
+    margin-top: 3px;
+}
+
+
+/* ================= FORM CARD ================= */
+
+.form-card {
+    background: white;
+
+    border: 1px solid #e5e9f2;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+.form-card h3 {
+    font-size: 15px;
+    margin-bottom: 17px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-grid .form-group {
+    margin-bottom: 0;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #475569;
+
+    margin-bottom: 7px;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    border: 1px solid #dbe1eb;
+
+    border-radius: 9px;
+
+    padding: 11px 12px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+    background: #fbfcfe;
+
+    transition: 0.2s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #4f7cff;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 124, 255, 0.1);
+}
+
+textarea {
+    resize: vertical;
+}
+
+
+/* ================= CARD HEADING ================= */
+
+.card-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+.card-heading h3 {
+    margin: 0;
+}
+
+.add-btn {
+    border: none;
+
+    background: #eef4ff;
+
+    color: #3567d6;
+
+    padding: 7px 12px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* ================= DYNAMIC ITEMS ================= */
+
+.dynamic-item {
+    border: 1px solid #e2e7ef;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 12px;
+
+    position: relative;
+
+    background: #fafcff;
+}
+
+.remove-btn {
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    border: none;
+
+    background: #fff0f1;
+
+    color: #dc3545;
+
+    border-radius: 7px;
+
+    padding: 5px 8px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+}
+
+
+/* ================= GENERATE ================= */
+
+.generate-btn {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 11px;
+
+    padding: 14px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.generate-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* ================= PREVIEW ================= */
+
+.preview-section {
+    position: sticky;
+
+    top: 105px;
+
+    align-self: start;
+}
+
+.preview-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.preview-header h2 {
+    font-size: 19px;
+}
+
+.preview-header p {
+    font-size: 11px;
+
+    color: #7a8497;
+
+    margin-top: 3px;
+}
+
+.download-btn {
+    border: none;
+
+    background: #172033;
+
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* ================= RESUME PAPER ================= */
+
+.resume-paper {
+    width: 100%;
+
+    min-height: 1120px;
+
+    background: white;
+
+    padding: 48px 52px;
+
+    box-shadow:
+        0 10px 35px rgba(15, 23, 42, 0.12);
+
+    color: #111827;
+}
+
+
+/* ================= RESUME HEADER ================= */
+
+.resume-header {
+    text-align: center;
+
+    padding-bottom: 18px;
+
+    border-bottom: 2px solid #111827;
+}
+
+.resume-header h1 {
+    font-size: 28px;
+
+    letter-spacing: 0.5px;
+}
+
+.resume-header p {
+    font-size: 11px;
+
+    margin-top: 7px;
+
+    color: #4b5563;
+}
+
+
+/* ================= RESUME SECTION ================= */
+
+.resume-section {
+    margin-top: 22px;
+}
+
+.resume-section h2 {
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    border-bottom: 1px solid #cfd5df;
+
+    padding-bottom: 5px;
+
+    margin-bottom: 10px;
+}
+
+.resume-section p {
+    font-size: 10.5px;
+
+    line-height: 1.55;
+}
+
+
+/* ================= EDUCATION ================= */
+
+.resume-entry {
+    margin-bottom: 12px;
+}
+
+.resume-entry-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.resume-entry strong {
+    font-size: 11px;
+}
+
+.resume-entry span {
+    font-size: 10px;
+
+    color: #4b5563;
+}
+
+.resume-entry p {
+    margin-top: 3px;
+}
+
+
+/* ================= SKILLS ================= */
+
+.skill-row {
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
+
+    gap: 10px;
+
+    font-size: 10.5px;
+
+    margin-bottom: 5px;
+}
+
+.skill-row strong {
+    font-weight: 700;
+}
+
+
+/* ================= PROJECT ================= */
+
+.project-entry {
+    margin-bottom: 12px;
+}
+
+.project-entry strong {
+    font-size: 11px;
+}
+
+.project-entry .tech {
+    font-size: 10px;
+
+    color: #4b5563;
+
+    margin-top: 2px;
+}
+
+.project-entry ul {
+    margin-top: 5px;
+
+    padding-left: 17px;
+}
+
+.project-entry li {
+    font-size: 10px;
+
+    line-height: 1.45;
+
+    margin-bottom: 2px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 1000px) {
+
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-section {
+        position: static;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .brand p {
+        display: none;
+    }
+
+    .main-container {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .resume-paper {
+        padding: 30px 25px;
+    }
+
+    .preview-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+}
+
+
+/* ================= PRINT ================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .topbar,
+    .editor,
+    .preview-header {
+        display: none !important;
+    }
+
+    .main-container {
+        display: block;
+
+        padding: 0;
+
+        margin: 0;
+    }
+
+    .preview-section {
+        position: static;
+    }
+
+    .resume-paper {
+        box-shadow: none;
+
+        width: 100%;
+
+        min-height: auto;
+
+        margin: 0;
+
+        padding: 35px 45px;
+    }
+
+}
