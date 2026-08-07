@@ -6,38 +6,40 @@ import {
 
 
 // ===============================
-// Firebase Login Check
+// CLOUDINARY SETTINGS
+// ===============================
+
+const CLOUD_NAME = "lzxerltu";
+const UPLOAD_PRESET = "studentlocker";
+
+
+// ===============================
+// CHECK LOGIN
 // ===============================
 
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
         window.location.href = "index.html";
+        return;
     }
 
+    console.log("Logged in user:", user.email);
 });
 
 
 // ===============================
-// Cloudinary Configuration
+// GET HTML ELEMENTS
 // ===============================
 
-const CLOUD_NAME = "lzxerlitu";
-const UPLOAD_PRESET = "studentlocker";
-
-
-// ===============================
-// Get HTML Elements
-// ===============================
-
-const uploadBtn = document.getElementById("uploadBtn");
 const fileInput = document.getElementById("fileInput");
 const category = document.getElementById("category");
+const uploadBtn = document.getElementById("uploadBtn");
 const uploadStatus = document.getElementById("uploadStatus");
 
 
 // ===============================
-// Upload Button
+// UPLOAD FILE
 // ===============================
 
 uploadBtn.addEventListener("click", async () => {
@@ -46,23 +48,26 @@ uploadBtn.addEventListener("click", async () => {
     const selectedCategory = category.value;
 
 
-    // Check file
+    // No file selected
     if (!file) {
 
-        uploadStatus.textContent = "❌ Please select a file first.";
+        uploadStatus.textContent =
+            "❌ Please select a file first.";
 
         return;
     }
 
 
-    uploadStatus.textContent = "⏳ Uploading...";
+    // Show uploading message
+    uploadStatus.textContent =
+        "⏳ Uploading your document...";
 
     uploadBtn.disabled = true;
 
 
     try {
 
-        // Create FormData
+        // Create form data
         const formData = new FormData();
 
         formData.append("file", file);
@@ -83,52 +88,96 @@ uploadBtn.addEventListener("click", async () => {
         );
 
 
-        // Convert response to JSON
+        // Get Cloudinary response
         const data = await response.json();
 
 
-        // Check for error
+        // Check error
         if (!response.ok) {
 
             throw new Error(
-                data.error?.message || "Upload failed"
+                data.error?.message ||
+                "Cloudinary upload failed"
             );
-
         }
 
 
-        // Success
-        console.log("Cloudinary response:", data);
-
-        console.log("File URL:", data.secure_url);
-
-
-        uploadStatus.textContent =
-            "✅ File uploaded successfully!";
-
-
-        // Show information
-        alert(
-            "File uploaded successfully!\n\n" +
-            "File: " + file.name + "\n" +
-            "Category: " + selectedCategory
+        // Successful upload
+        console.log(
+            "Cloudinary response:",
+            data
         );
 
 
-        // Clear selected file
+        console.log(
+            "File URL:",
+            data.secure_url
+        );
+
+
+        uploadStatus.textContent =
+            "✅ Document uploaded successfully!";
+
+
+        // ===============================
+        // SHOW UPLOADED DOCUMENT
+        // ===============================
+
+        const documentList =
+            document.getElementById("documentList");
+
+
+        if (documentList) {
+
+            const documentItem =
+                document.createElement("div");
+
+            documentItem.className =
+                "document-item";
+
+
+            documentItem.innerHTML = `
+                <div>
+                    <strong>📄 ${file.name}</strong>
+                    <p>Category: ${selectedCategory}</p>
+                </div>
+
+                <a
+                    href="${data.secure_url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View
+                </a>
+            `;
+
+
+            documentList.prepend(
+                documentItem
+            );
+        }
+
+
+        // Clear file input
         fileInput.value = "";
 
 
     } catch (error) {
 
-        console.error("Upload error:", error);
+        console.error(
+            "Cloudinary Error:",
+            error
+        );
+
 
         uploadStatus.textContent =
-            "❌ Upload failed: " + error.message;
+            "❌ Upload failed: " +
+            error.message;
 
+
+    } finally {
+
+        uploadBtn.disabled = false;
     }
-
-
-    uploadBtn.disabled = false;
 
 });
