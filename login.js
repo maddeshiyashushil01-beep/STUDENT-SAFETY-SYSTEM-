@@ -82,3 +82,52 @@ loginForm.addEventListener("submit", async (e) => {
     }
 
 });
+
+const fileInput = document.getElementById("fileInput");
+const uploadBtn = document.getElementById("uploadBtn");
+const uploadStatus = document.getElementById("uploadStatus");
+
+const CLOUD_NAME = "lzxerlitu";
+const UPLOAD_PRESET = "studentlocker";
+
+uploadBtn.addEventListener("click", async () => {
+    const file = fileInput.files[0];
+
+    if (!file) {
+        uploadStatus.textContent = "Please select a file first.";
+        return;
+    }
+
+    uploadStatus.textContent = "Uploading...";
+
+    try {
+        const formData = new FormData();
+
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error?.message || "Upload failed");
+        }
+
+        console.log("Cloudinary response:", data);
+
+        uploadStatus.textContent = "✅ File uploaded successfully!";
+
+        console.log("File URL:", data.secure_url);
+
+    } catch (error) {
+        console.error(error);
+        uploadStatus.textContent = "❌ Upload failed: " + error.message;
+    }
+});
