@@ -1,50 +1,171 @@
 import { auth, db } from "./firebase.js";
 
 import {
-  signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-  signOut
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    signOut,
+    sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-  collection,
-  getDocs
+    collection,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
+// ==========================================
+// GET ELEMENTS
+// ==========================================
+
 const loginForm = document.getElementById("loginForm");
+
+const emailInput = document.getElementById("username");
+
+const passwordInput = document.getElementById("password");
+
+const roleInput = document.getElementById("role");
+
 const errorMsg = document.getElementById("errorMsg");
 
-loginForm.addEventListener("submit", async (e) => {
+const loginBtn = document.getElementById("loginBtn");
 
-    e.preventDefault();
+const togglePassword =
+    document.getElementById("togglePassword");
 
-    errorMsg.innerText = "";
+const forgotPassword =
+    document.getElementById("forgotPassword");
 
-    const email = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const role = document.getElementById("role").value;
+
+// ==========================================
+// SHOW / HIDE PASSWORD
+// ==========================================
+
+togglePassword.addEventListener("click", () => {
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        togglePassword.textContent = "🙈";
+
+        togglePassword.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        passwordInput.type = "password";
+
+        togglePassword.textContent = "👁️";
+
+        togglePassword.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+});
+
+
+// ==========================================
+// LOGIN
+// ==========================================
+
+loginForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    errorMsg.textContent = "";
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    const role =
+        roleInput.value;
+
+
+    // Basic validation
+    if (!email || !password) {
+
+        showMessage(
+            "Please enter your email and password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    // Disable button
+    loginBtn.disabled = true;
+
+    loginBtn.textContent = "Logging in...";
+
 
     try {
 
-        await setPersistence(auth, browserLocalPersistence);
-
-        const userCredential = await signInWithEmailAndPassword(
+        // Remember login
+        await setPersistence(
             auth,
-            email,
-            password
+            browserLocalPersistence
         );
 
-        const user = userCredential.user;
+
+        // Firebase login
+        const userCredential =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        const user =
+            userCredential.user;
+
+
+        // ==================================
+        // STUDENT LOGIN
+        // ==================================
 
         if (role === "student") {
-            window.location.href = "sos.html";
+
+            showMessage(
+                "✅ Login successful! Opening dashboard...",
+                "success"
+            );
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "sos.html";
+
+            }, 500);
+
+
             return;
         }
 
-        const snapshot = await getDocs(collection(db, "admins"));
+
+        // ==================================
+        // ADMIN LOGIN
+        // ==================================
+
+        const snapshot =
+            await getDocs(
+                collection(db, "admins")
+            );
+
 
         let isAdmin = false;
+
 
         snapshot.forEach((doc) => {
 
@@ -52,82 +173,282 @@ loginForm.addEventListener("submit", async (e) => {
 
             if (
                 data.email &&
-                data.email.trim().toLowerCase() ===
-                user.email.trim().toLowerCase()
+                data.email
+                    .trim()
+                    .toLowerCase() ===
+                user.email
+                    .trim()
+                    .toLowerCase()
             ) {
+
                 isAdmin = true;
+
             }
 
         });
 
+
         if (isAdmin) {
 
-            window.location.href = "admin.html";
+            showMessage(
+                "✅ Admin login successful!",
+                "success"
+            );
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "admin.html";
+
+            }, 500);
+
 
         } else {
 
             await signOut(auth);
 
-            errorMsg.innerText = "Access Denied! You are not an Admin.";
+            showMessage(
+                "❌ Access denied. This account is not an Admin.",
+                "error"
+            );
 
         }
 
+
     } catch (error) {
 
-        console.error(error);
-
-        errorMsg.innerText =
-            error.code + " : " + error.message;
-
-    }
-
-});
-
-const fileInput = document.getElementById("fileInput");
-const uploadBtn = document.getElementById("uploadBtn");
-const uploadStatus = document.getElementById("uploadStatus");
-
-const CLOUD_NAME = "lzxerlitu";
-const UPLOAD_PRESET = "studentlocker";
-
-uploadBtn.addEventListener("click", async () => {
-    const file = fileInput.files[0];
-
-    if (!file) {
-        uploadStatus.textContent = "Please select a file first.";
-        return;
-    }
-
-    uploadStatus.textContent = "Uploading...";
-
-    try {
-        const formData = new FormData();
-
-        formData.append("file", file);
-        formData.append("upload_preset", UPLOAD_PRESET);
-
-        const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
-            {
-                method: "POST",
-                body: formData
-            }
+        console.error(
+            "Login error:",
+            error
         );
 
-        const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.error?.message || "Upload failed");
+        // ==================================
+        // FRIENDLY FIREBASE ERRORS
+        // ==================================
+
+        let message =
+            "❌ Login failed. Please try again.";
+
+
+        switch (error.code) {
+
+            case "auth/invalid-credential":
+
+            case "auth/wrong-password":
+
+            case "auth/user-not-found":
+
+                message =
+                    "❌ Wrong email or password.";
+
+                break;
+
+
+            case "auth/invalid-email":
+
+                message =
+                    "❌ Please enter a valid email address.";
+
+                break;
+
+
+            case "auth/too-many-requests":
+
+                message =
+                    "⚠️ Too many attempts. Please try again later.";
+
+                break;
+
+
+            case "auth/network-request-failed":
+
+                message =
+                    "🌐 Network error. Check your internet connection.";
+
+                break;
+
+
+            case "auth/user-disabled":
+
+                message =
+                    "🚫 This account has been disabled.";
+
+                break;
+
         }
 
-        console.log("Cloudinary response:", data);
 
-        uploadStatus.textContent = "✅ File uploaded successfully!";
+        showMessage(
+            message,
+            "error"
+        );
 
-        console.log("File URL:", data.secure_url);
+    } finally {
 
-    } catch (error) {
-        console.error(error);
-        uploadStatus.textContent = "❌ Upload failed: " + error.message;
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+            "Access Dashboard";
+
     }
+
 });
+
+
+// ==========================================
+// FORGOT PASSWORD
+// ==========================================
+
+forgotPassword.addEventListener(
+    "click",
+    async () => {
+
+        const email =
+            emailInput.value.trim();
+
+
+        // Email required
+        if (!email) {
+
+            showMessage(
+                "📧 Enter your email address first.",
+                "error"
+            );
+
+            emailInput.focus();
+
+            return;
+        }
+
+
+        // Check email format
+        if (
+            !email.includes("@") ||
+            !email.includes(".")
+        ) {
+
+            showMessage(
+                "❌ Please enter a valid email address.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        forgotPassword.disabled = true;
+
+        forgotPassword.textContent =
+            "Sending reset email...";
+
+
+        try {
+
+            await sendPasswordResetEmail(
+                auth,
+                email
+            );
+
+
+            showMessage(
+                "✅ Password reset email sent. Check your inbox.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Password reset error:",
+                error
+            );
+
+
+            let message =
+                "❌ Unable to send reset email.";
+
+
+            switch (error.code) {
+
+                case "auth/user-not-found":
+
+                    message =
+                        "❌ No account found with this email.";
+
+                    break;
+
+
+                case "auth/invalid-email":
+
+                    message =
+                        "❌ Please enter a valid email address.";
+
+                    break;
+
+
+                case "auth/too-many-requests":
+
+                    message =
+                        "⚠️ Too many requests. Try again later.";
+
+                    break;
+
+            }
+
+
+            showMessage(
+                message,
+                "error"
+            );
+
+        } finally {
+
+            forgotPassword.disabled = false;
+
+            forgotPassword.textContent =
+                "Forgot Password?";
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// MESSAGE FUNCTION
+// ==========================================
+
+function showMessage(
+    message,
+    type
+) {
+
+    errorMsg.textContent =
+        message;
+
+
+    if (type === "success") {
+
+        errorMsg.classList.add(
+            "success-message"
+        );
+
+        errorMsg.classList.remove(
+            "error-text"
+        );
+
+    } else {
+
+        errorMsg.classList.add(
+            "error-text"
+        );
+
+        errorMsg.classList.remove(
+            "success-message"
+        );
+
+    }
+
+}
