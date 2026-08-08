@@ -1,15 +1,32 @@
-// ======================================================
-// RESUME BUILDER - COMPLETE VERSION
-// Works with your current resume.html
-// ======================================================
+document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener("DOMContentLoaded", () => {
+    // ================================
+    // BASIC HELPERS
+    // ================================
 
-    console.log("✅ Resume Builder JS loaded");
+    function val(id) {
+        const el = document.getElementById(id);
+        return el ? el.value.trim() : "";
+    }
 
-    // ==================================================
-    // BASIC FIELD IDs
-    // ==================================================
+    function text(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    }
+
+    function safe(value) {
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // ================================
+    // LIVE BASIC INFORMATION
+    // ================================
 
     const basicFields = [
         "name",
@@ -27,152 +44,64 @@ document.addEventListener("DOMContentLoaded", () => {
         "achievements"
     ];
 
+    basicFields.forEach(function (id) {
 
-    // ==================================================
-    // HELPER FUNCTIONS
-    // ==================================================
+        const el = document.getElementById(id);
 
-    function getValue(id) {
-        const element = document.getElementById(id);
-
-        if (!element) return "";
-
-        return element.value.trim();
-    }
-
-
-    function setText(id, text) {
-        const element = document.getElementById(id);
-
-        if (element) {
-            element.textContent = text;
-        }
-    }
-
-
-    function escapeHTML(text) {
-        return String(text || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-
-    function addInputListener(container) {
-
-        container
-            .querySelectorAll("input, textarea")
-            .forEach(input => {
-
-                input.addEventListener(
-                    "input",
-                    updateResume
-                );
-
-            });
-    }
-
-
-    // ==================================================
-    // LIVE UPDATE - BASIC FIELDS
-    // ==================================================
-
-    basicFields.forEach(id => {
-
-        const element = document.getElementById(id);
-
-        if (element) {
-
-            element.addEventListener(
-                "input",
-                updateResume
-            );
-
+        if (el) {
+            el.addEventListener("input", updateResume);
         }
 
     });
 
 
-    // ==================================================
-    // EDUCATION
-    // ==================================================
+    // ================================
+    // ADD EDUCATION
+    // ================================
+
+    const addEducation =
+        document.getElementById("addEducation");
 
     const educationContainer =
         document.getElementById("educationContainer");
 
-    const addEducationBtn =
-        document.getElementById("addEducation");
+    if (addEducation && educationContainer) {
 
+        addEducation.addEventListener("click", function () {
 
-    if (addEducationBtn) {
+            const item = document.createElement("div");
 
-        addEducationBtn.addEventListener("click", () => {
-
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "dynamic-item education-item";
+            item.className = "dynamic-item education-item";
 
             item.innerHTML = `
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                >
+                <button type="button" class="remove-btn">
                     ✕ Remove
                 </button>
 
                 <div class="form-grid">
 
                     <div class="form-group">
-
                         <label>Degree / Course</label>
-
-                        <input
-                            type="text"
-                            class="edu-degree"
-                            placeholder="B.Tech in Electronics & Communication"
-                        >
-
+                        <input class="edu-degree"
+                            placeholder="B.Tech in Electronics & Communication">
                     </div>
 
                     <div class="form-group">
-
                         <label>College / University</label>
-
-                        <input
-                            type="text"
-                            class="edu-college"
-                            placeholder="Government Engineering College"
-                        >
-
+                        <input class="edu-college"
+                            placeholder="Government Engineering College">
                     </div>
 
                     <div class="form-group">
-
                         <label>Year</label>
-
-                        <input
-                            type="text"
-                            class="edu-year"
-                            placeholder="2024 - 2028"
-                        >
-
+                        <input class="edu-year"
+                            placeholder="2024 - 2028">
                     </div>
 
                     <div class="form-group">
-
                         <label>CGPA / Percentage</label>
-
-                        <input
-                            type="text"
-                            class="edu-score"
-                            placeholder="8.5 CGPA"
-                        >
-
+                        <input class="edu-score"
+                            placeholder="8.5 CGPA">
                     </div>
 
                 </div>
@@ -180,17 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             educationContainer.appendChild(item);
 
-            item
-                .querySelector(".remove-btn")
-                .addEventListener("click", () => {
-
-                    item.remove();
-
-                    updateResume();
-
-                });
-
-            addInputListener(item);
+            connectDynamicItem(item);
 
             updateResume();
 
@@ -199,98 +118,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==================================================
-    // PROJECTS
-    // ==================================================
+    // ================================
+    // ADD PROJECT
+    // ================================
+
+    const addProject =
+        document.getElementById("addProject");
 
     const projectContainer =
         document.getElementById("projectContainer");
 
-    const addProjectBtn =
-        document.getElementById("addProject");
+    if (addProject && projectContainer) {
 
+        addProject.addEventListener("click", function () {
 
-    if (addProjectBtn) {
+            const item = document.createElement("div");
 
-        addProjectBtn.addEventListener("click", () => {
-
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "dynamic-item project-item";
+            item.className = "dynamic-item project-item";
 
             item.innerHTML = `
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                >
+                <button type="button" class="remove-btn">
                     ✕ Remove
                 </button>
 
                 <div class="form-group">
-
                     <label>Project Name</label>
-
-                    <input
-                        type="text"
-                        class="project-name"
-                        placeholder="Student Safety System"
-                    >
-
+                    <input class="project-name"
+                        placeholder="Student Safety System">
                 </div>
 
                 <div class="form-group">
-
                     <label>Technologies</label>
-
-                    <input
-                        type="text"
-                        class="project-tech"
-                        placeholder="HTML, CSS, JavaScript, Firebase"
-                    >
-
+                    <input class="project-tech"
+                        placeholder="HTML, CSS, JavaScript, Firebase">
                 </div>
 
                 <div class="form-group">
-
                     <label>Project Link</label>
-
-                    <input
-                        type="url"
-                        class="project-link"
-                        placeholder="https://github.com/username/project"
-                    >
-
+                    <input class="project-link"
+                        placeholder="https://github.com/username/project">
                 </div>
 
                 <div class="form-group">
-
                     <label>Project Description</label>
-
-                    <textarea
-                        class="project-description"
+                    <textarea class="project-description"
                         rows="4"
-                        placeholder="Write each achievement on a new line."
-                    ></textarea>
-
+                        placeholder="Describe your project. Use a new line for each achievement."></textarea>
                 </div>
             `;
 
             projectContainer.appendChild(item);
 
-            item
-                .querySelector(".remove-btn")
-                .addEventListener("click", () => {
-
-                    item.remove();
-
-                    updateResume();
-
-                });
-
-            addInputListener(item);
+            connectDynamicItem(item);
 
             updateResume();
 
@@ -299,102 +178,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==================================================
-    // EXPERIENCE
-    // ==================================================
+    // ================================
+    // ADD EXPERIENCE
+    // ================================
+
+    const addExperience =
+        document.getElementById("addExperience");
 
     const experienceContainer =
         document.getElementById("experienceContainer");
 
-    const addExperienceBtn =
-        document.getElementById("addExperience");
+    if (addExperience && experienceContainer) {
 
+        addExperience.addEventListener("click", function () {
 
-    if (addExperienceBtn) {
+            const item = document.createElement("div");
 
-        addExperienceBtn.addEventListener("click", () => {
-
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "dynamic-item experience-item";
+            item.className = "dynamic-item experience-item";
 
             item.innerHTML = `
-
-                <button
-                    type="button"
-                    class="remove-btn"
-                >
+                <button type="button" class="remove-btn">
                     ✕ Remove
                 </button>
 
                 <div class="form-grid">
 
                     <div class="form-group">
-
                         <label>Role</label>
-
-                        <input
-                            type="text"
-                            class="exp-role"
-                            placeholder="Software Developer Intern"
-                        >
-
+                        <input class="exp-role"
+                            placeholder="Software Developer Intern">
                     </div>
 
                     <div class="form-group">
-
                         <label>Company</label>
-
-                        <input
-                            type="text"
-                            class="exp-company"
-                            placeholder="Company Name"
-                        >
-
+                        <input class="exp-company"
+                            placeholder="Company Name">
                     </div>
 
                     <div class="form-group">
-
                         <label>Duration</label>
-
-                        <input
-                            type="text"
-                            class="exp-duration"
-                            placeholder="May 2026 - July 2026"
-                        >
-
+                        <input class="exp-duration"
+                            placeholder="May 2026 - July 2026">
                     </div>
 
                 </div>
 
                 <div class="form-group">
-
                     <label>Responsibilities / Achievements</label>
 
-                    <textarea
-                        class="exp-description"
+                    <textarea class="exp-description"
                         rows="4"
-                        placeholder="Write each responsibility or achievement on a new line."
-                    ></textarea>
-
+                        placeholder="Write each achievement on a new line."></textarea>
                 </div>
             `;
 
             experienceContainer.appendChild(item);
 
-            item
-                .querySelector(".remove-btn")
-                .addEventListener("click", () => {
-
-                    item.remove();
-
-                    updateResume();
-
-                });
-
-            addInputListener(item);
+            connectDynamicItem(item);
 
             updateResume();
 
@@ -403,144 +243,130 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==================================================
-    // CERTIFICATIONS
-    // ==================================================
+    // ================================
+    // ADD CERTIFICATION
+    // ================================
+
+    const addCertification =
+        document.getElementById("addCertification");
 
     const certificationContainer =
         document.getElementById("certificationContainer");
 
-    const addCertificationBtn =
-        document.getElementById("addCertification");
+    if (addCertification && certificationContainer) {
 
+        addCertification.addEventListener("click", function () {
 
-    if (addCertificationBtn) {
+            const item = document.createElement("div");
 
-        addCertificationBtn.addEventListener(
-            "click",
-            () => {
+            item.className = "dynamic-item certification-item";
 
-                const item =
-                    document.createElement("div");
+            item.innerHTML = `
+                <button type="button" class="remove-btn">
+                    ✕ Remove
+                </button>
 
-                item.className =
-                    "dynamic-item certification-item";
+                <div class="form-grid">
 
-                item.innerHTML = `
-
-                    <button
-                        type="button"
-                        class="remove-btn"
-                    >
-                        ✕ Remove
-                    </button>
-
-                    <div class="form-grid">
-
-                        <div class="form-group">
-
-                            <label>Certification</label>
-
-                            <input
-                                type="text"
-                                class="cert-name"
-                                placeholder="Google Data Analytics"
-                            >
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>Issuing Organization</label>
-
-                            <input
-                                type="text"
-                                class="cert-org"
-                                placeholder="Google"
-                            >
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>Year</label>
-
-                            <input
-                                type="text"
-                                class="cert-year"
-                                placeholder="2026"
-                            >
-
-                        </div>
-
+                    <div class="form-group">
+                        <label>Certification</label>
+                        <input class="cert-name"
+                            placeholder="Google Data Analytics">
                     </div>
-                `;
 
-                certificationContainer.appendChild(item);
+                    <div class="form-group">
+                        <label>Issuing Organization</label>
+                        <input class="cert-org"
+                            placeholder="Google">
+                    </div>
 
-                item
-                    .querySelector(".remove-btn")
-                    .addEventListener("click", () => {
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input class="cert-year"
+                            placeholder="2026">
+                    </div>
 
-                        item.remove();
+                </div>
+            `;
 
-                        updateResume();
+            certificationContainer.appendChild(item);
 
-                    });
+            connectDynamicItem(item);
 
-                addInputListener(item);
+            updateResume();
 
-                updateResume();
-
-            }
-        );
+        });
 
     }
 
 
-    // ==================================================
-    // UPDATE COMPLETE RESUME
-    // ==================================================
+    // ================================
+    // DYNAMIC ITEM EVENTS
+    // ================================
+
+    function connectDynamicItem(item) {
+
+        const remove =
+            item.querySelector(".remove-btn");
+
+        if (remove) {
+
+            remove.addEventListener("click", function () {
+
+                item.remove();
+
+                updateResume();
+
+            });
+
+        }
+
+        item
+            .querySelectorAll("input, textarea")
+            .forEach(function (input) {
+
+                input.addEventListener(
+                    "input",
+                    updateResume
+                );
+
+            });
+
+    }
+
+
+    // ================================
+    // UPDATE RESUME
+    // ================================
 
     function updateResume() {
 
-        // ----------------------------------------------
-        // PERSONAL INFORMATION
-        // ----------------------------------------------
-
-        setText(
+        // Personal
+        text(
             "previewName",
-            getValue("name") || "YOUR NAME"
+            val("name") || "YOUR NAME"
         );
 
-
         const contact = [
-
-            getValue("email"),
-            getValue("phone"),
-            getValue("location")
-
+            val("email"),
+            val("phone"),
+            val("location")
         ].filter(Boolean);
 
-
-        setText(
+        text(
             "previewContact",
             contact.length
                 ? contact.join(" • ")
                 : "Email • Phone • Location"
         );
 
-
         const links = [
-
-            getValue("linkedin"),
-            getValue("github"),
-            getValue("portfolio")
-
+            val("linkedin"),
+            val("github"),
+            val("portfolio")
         ].filter(Boolean);
 
-
-        setText(
+        text(
             "previewLinks",
             links.length
                 ? links.join(" • ")
@@ -548,43 +374,27 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        // ----------------------------------------------
-        // SUMMARY
-        // ----------------------------------------------
-
-        const summary =
-            getValue("summary");
-
-
-        setText(
+        // Summary
+        text(
             "previewSummary",
-            summary ||
+            val("summary") ||
             "Your professional summary will appear here."
         );
 
 
-        // ----------------------------------------------
-        // OTHER SECTIONS
-        // ----------------------------------------------
-
         updateEducation();
-
         updateSkills();
-
         updateProjects();
-
         updateExperience();
-
         updateCertifications();
-
         updateAchievements();
 
     }
 
 
-    // ==================================================
+    // ================================
     // EDUCATION PREVIEW
-    // ==================================================
+    // ================================
 
     function updateEducation() {
 
@@ -593,75 +403,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-        const items =
-            document.querySelectorAll(".education-item");
-
-
         preview.innerHTML = "";
 
+        document
+            .querySelectorAll(".education-item")
+            .forEach(function (item) {
 
-        items.forEach(item => {
+                const degree =
+                    item.querySelector(".edu-degree")?.value.trim() || "";
 
-            const degree =
-                item.querySelector(".edu-degree")?.value.trim() || "";
+                const college =
+                    item.querySelector(".edu-college")?.value.trim() || "";
 
-            const college =
-                item.querySelector(".edu-college")?.value.trim() || "";
+                const year =
+                    item.querySelector(".edu-year")?.value.trim() || "";
 
-            const year =
-                item.querySelector(".edu-year")?.value.trim() || "";
+                const score =
+                    item.querySelector(".edu-score")?.value.trim() || "";
 
-            const score =
-                item.querySelector(".edu-score")?.value.trim() || "";
+                if (!degree && !college && !year && !score) {
+                    return;
+                }
 
+                const div =
+                    document.createElement("div");
 
-            if (!degree && !college && !year && !score) {
-                return;
-            }
+                div.className = "resume-entry";
 
+                div.innerHTML = `
+                    <div class="resume-entry-header">
+                        <strong>${safe(degree)}</strong>
+                        <span>${safe(year)}</span>
+                    </div>
 
-            const entry =
-                document.createElement("div");
+                    <p>
+                        ${safe(college)}
+                        ${score ? " • " + safe(score) : ""}
+                    </p>
+                `;
 
-            entry.className =
-                "resume-entry";
+                preview.appendChild(div);
 
-
-            entry.innerHTML = `
-
-                <div class="resume-entry-header">
-
-                    <strong>
-                        ${escapeHTML(degree)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(year)}
-                    </span>
-
-                </div>
-
-                <p>
-                    ${escapeHTML(college)}
-                    ${score
-                        ? " • " + escapeHTML(score)
-                        : ""
-                    }
-                </p>
-
-            `;
-
-
-            preview.appendChild(entry);
-
-        });
+            });
 
     }
 
 
-    // ==================================================
+    // ================================
     // SKILLS PREVIEW
-    // ==================================================
+    // ================================
 
     function updateSkills() {
 
@@ -670,47 +460,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-
-        const skills = [
-
-            ["Programming", getValue("programming")],
-
-            ["Frameworks", getValue("frameworks")],
-
-            ["Database / Cloud", getValue("database")],
-
-            ["Tools", getValue("tools")]
-
-        ];
-
-
         preview.innerHTML = "";
 
+        const skills = [
+            ["Programming", val("programming")],
+            ["Frameworks", val("frameworks")],
+            ["Database / Cloud", val("database")],
+            ["Tools", val("tools")]
+        ];
 
-        skills.forEach(([label, content]) => {
+        skills.forEach(function ([name, content]) {
 
             if (!content) return;
-
 
             const row =
                 document.createElement("div");
 
-            row.className =
-                "skill-row";
-
+            row.className = "skill-row";
 
             row.innerHTML = `
-
-                <strong>
-                    ${escapeHTML(label)}
-                </strong>
-
-                <span>
-                    ${escapeHTML(content)}
-                </span>
-
+                <strong>${safe(name)}</strong>
+                <span>${safe(content)}</span>
             `;
-
 
             preview.appendChild(row);
 
@@ -719,9 +490,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==================================================
-    // PROJECT PREVIEW
-    // ==================================================
+    // ================================
+    // PROJECTS PREVIEW
+    // ================================
 
     function updateProjects() {
 
@@ -730,119 +501,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-
-        const items =
-            document.querySelectorAll(".project-item");
-
-
         preview.innerHTML = "";
 
+        document
+            .querySelectorAll(".project-item")
+            .forEach(function (item) {
 
-        items.forEach(item => {
+                const name =
+                    item.querySelector(".project-name")?.value.trim() || "";
 
-            const name =
-                item.querySelector(".project-name")?.value.trim() || "";
+                const tech =
+                    item.querySelector(".project-tech")?.value.trim() || "";
 
-            const tech =
-                item.querySelector(".project-tech")?.value.trim() || "";
+                const link =
+                    item.querySelector(".project-link")?.value.trim() || "";
 
-            const link =
-                item.querySelector(".project-link")?.value.trim() || "";
+                const description =
+                    item.querySelector(".project-description")?.value.trim() || "";
 
-            const description =
-                item.querySelector(".project-description")?.value.trim() || "";
+                if (!name && !tech && !link && !description) {
+                    return;
+                }
 
+                const div =
+                    document.createElement("div");
 
-            if (!name && !tech && !link && !description) {
-                return;
-            }
+                div.className = "project-entry";
 
+                let bullets = "";
 
-            const entry =
-                document.createElement("div");
-
-            entry.className =
-                "project-entry";
-
-
-            let bullets = "";
-
-
-            if (description) {
-
-                const lines =
-                    description
-                        .split("\n")
-                        .map(line => line.trim())
-                        .filter(Boolean);
-
-
-                if (lines.length) {
+                if (description) {
 
                     bullets = `
-
                         <ul>
-
-                            ${lines.map(line => `
-                                <li>
-                                    ${escapeHTML(line)}
-                                </li>
-                            `).join("")}
-
+                            ${description
+                                .split("\n")
+                                .filter(Boolean)
+                                .map(line =>
+                                    `<li>${safe(line)}</li>`
+                                )
+                                .join("")}
                         </ul>
-
                     `;
 
                 }
 
-            }
+                div.innerHTML = `
+                    <strong>${safe(name)}</strong>
 
+                    ${tech
+                        ? `<div class="tech">${safe(tech)}</div>`
+                        : ""}
 
-            entry.innerHTML = `
+                    ${link
+                        ? `<div class="tech">${safe(link)}</div>`
+                        : ""}
 
-                <div class="resume-entry-header">
+                    ${bullets}
+                `;
 
-                    <strong>
-                        ${escapeHTML(name)}
-                    </strong>
+                preview.appendChild(div);
 
-                </div>
-
-                ${
-                    tech
-                    ? `
-                        <div class="tech">
-                            ${escapeHTML(tech)}
-                        </div>
-                    `
-                    : ""
-                }
-
-                ${
-                    link
-                    ? `
-                        <div class="tech">
-                            ${escapeHTML(link)}
-                        </div>
-                    `
-                    : ""
-                }
-
-                ${bullets}
-
-            `;
-
-
-            preview.appendChild(entry);
-
-        });
+            });
 
     }
 
 
-    // ==================================================
+    // ================================
     // EXPERIENCE PREVIEW
-    // ==================================================
+    // ================================
 
     function updateExperience() {
 
@@ -851,109 +578,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-
-        const items =
-            document.querySelectorAll(".experience-item");
-
-
         preview.innerHTML = "";
 
+        document
+            .querySelectorAll(".experience-item")
+            .forEach(function (item) {
 
-        items.forEach(item => {
+                const role =
+                    item.querySelector(".exp-role")?.value.trim() || "";
 
-            const role =
-                item.querySelector(".exp-role")?.value.trim() || "";
+                const company =
+                    item.querySelector(".exp-company")?.value.trim() || "";
 
-            const company =
-                item.querySelector(".exp-company")?.value.trim() || "";
+                const duration =
+                    item.querySelector(".exp-duration")?.value.trim() || "";
 
-            const duration =
-                item.querySelector(".exp-duration")?.value.trim() || "";
+                const description =
+                    item.querySelector(".exp-description")?.value.trim() || "";
 
-            const description =
-                item.querySelector(".exp-description")?.value.trim() || "";
-
-
-            if (!role && !company && !duration && !description) {
-                return;
-            }
-
-
-            const entry =
-                document.createElement("div");
-
-            entry.className =
-                "resume-entry";
-
-
-            let descriptionHTML = "";
-
-
-            if (description) {
-
-                const lines =
-                    description
-                        .split("\n")
-                        .map(line => line.trim())
-                        .filter(Boolean);
-
-
-                descriptionHTML = `
-
-                    <ul>
-
-                        ${lines.map(line => `
-                            <li>
-                                ${escapeHTML(line)}
-                            </li>
-                        `).join("")}
-
-                    </ul>
-
-                `;
-
-            }
-
-
-            entry.innerHTML = `
-
-                <div class="resume-entry-header">
-
-                    <strong>
-                        ${escapeHTML(role)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(duration)}
-                    </span>
-
-                </div>
-
-                ${
-                    company
-                    ? `
-                        <p>
-                            ${escapeHTML(company)}
-                        </p>
-                    `
-                    : ""
+                if (!role && !company && !duration && !description) {
+                    return;
                 }
 
-                ${descriptionHTML}
+                const div =
+                    document.createElement("div");
 
-            `;
+                div.className = "resume-entry";
 
+                let bullets = "";
 
-            preview.appendChild(entry);
+                if (description) {
 
-        });
+                    bullets = `
+                        <ul>
+                            ${description
+                                .split("\n")
+                                .filter(Boolean)
+                                .map(line =>
+                                    `<li>${safe(line)}</li>`
+                                )
+                                .join("")}
+                        </ul>
+                    `;
+
+                }
+
+                div.innerHTML = `
+                    <div class="resume-entry-header">
+                        <strong>${safe(role)}</strong>
+                        <span>${safe(duration)}</span>
+                    </div>
+
+                    <p>${safe(company)}</p>
+
+                    ${bullets}
+                `;
+
+                preview.appendChild(div);
+
+            });
 
     }
 
 
-    // ==================================================
-    // CERTIFICATION PREVIEW
-    // ==================================================
+    // ================================
+    // CERTIFICATIONS PREVIEW
+    // ================================
 
     function updateCertifications() {
 
@@ -962,75 +652,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-
-        const items =
-            document.querySelectorAll(".certification-item");
-
-
         preview.innerHTML = "";
 
+        document
+            .querySelectorAll(".certification-item")
+            .forEach(function (item) {
 
-        items.forEach(item => {
+                const name =
+                    item.querySelector(".cert-name")?.value.trim() || "";
 
-            const name =
-                item.querySelector(".cert-name")?.value.trim() || "";
+                const org =
+                    item.querySelector(".cert-org")?.value.trim() || "";
 
-            const organization =
-                item.querySelector(".cert-org")?.value.trim() || "";
+                const year =
+                    item.querySelector(".cert-year")?.value.trim() || "";
 
-            const year =
-                item.querySelector(".cert-year")?.value.trim() || "";
-
-
-            if (!name && !organization && !year) {
-                return;
-            }
-
-
-            const entry =
-                document.createElement("div");
-
-            entry.className =
-                "resume-entry";
-
-
-            entry.innerHTML = `
-
-                <div class="resume-entry-header">
-
-                    <strong>
-                        ${escapeHTML(name)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(year)}
-                    </span>
-
-                </div>
-
-                ${
-                    organization
-                    ? `
-                        <p>
-                            ${escapeHTML(organization)}
-                        </p>
-                    `
-                    : ""
+                if (!name && !org && !year) {
+                    return;
                 }
 
-            `;
+                const div =
+                    document.createElement("div");
 
+                div.className = "resume-entry";
 
-            preview.appendChild(entry);
+                div.innerHTML = `
+                    <div class="resume-entry-header">
+                        <strong>${safe(name)}</strong>
+                        <span>${safe(year)}</span>
+                    </div>
 
-        });
+                    <p>${safe(org)}</p>
+                `;
+
+                preview.appendChild(div);
+
+            });
 
     }
 
 
-    // ==================================================
-    // ACHIEVEMENTS
-    // ==================================================
+    // ================================
+    // ACHIEVEMENTS PREVIEW
+    // ================================
 
     function updateAchievements() {
 
@@ -1039,166 +703,102 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!preview) return;
 
-
-        const achievements =
-            getValue("achievements");
-
-
         preview.innerHTML = "";
 
+        const achievements =
+            val("achievements");
 
         if (!achievements) return;
-
-
-        const lines =
-            achievements
-                .split("\n")
-                .map(line => line.trim())
-                .filter(Boolean);
-
 
         const ul =
             document.createElement("ul");
 
+        achievements
+            .split("\n")
+            .filter(Boolean)
+            .forEach(function (line) {
 
-        lines.forEach(line => {
+                const li =
+                    document.createElement("li");
 
-            const li =
-                document.createElement("li");
+                li.textContent =
+                    line.replace(/^[•\-*]\s*/, "");
 
-            li.textContent =
-                line.replace(/^[•\-*]\s*/, "");
+                ul.appendChild(li);
 
-            ul.appendChild(li);
-
-        });
-
+            });
 
         preview.appendChild(ul);
 
     }
 
 
-    // ==================================================
-    // GENERATE RESUME BUTTON
-    // ==================================================
+    // ================================
+    // GENERATE RESUME
+    // ================================
 
     const generateBtn =
         document.getElementById("generateBtn");
 
-
     if (generateBtn) {
 
-        generateBtn.addEventListener(
-            "click",
-            function () {
+        generateBtn.addEventListener("click", function () {
 
-                console.log(
-                    "✨ Generate Resume clicked"
-                );
+            updateResume();
 
+            const preview =
+                document.getElementById("resumePreview");
 
-                updateResume();
+            if (preview) {
 
-
-                // Small visual feedback
-                const oldText =
-                    generateBtn.innerHTML;
-
-
-                generateBtn.innerHTML =
-                    "✅ Resume Generated!";
-
-
-                setTimeout(() => {
-
-                    generateBtn.innerHTML =
-                        oldText;
-
-                }, 1500);
-
-
-                // Scroll to preview
-                const preview =
-                    document.getElementById(
-                        "resumePreview"
-                    );
-
-
-                if (preview) {
-
-                    preview.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
+                preview.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
             }
-        );
+
+            generateBtn.textContent =
+                "✅ Resume Generated";
+
+            setTimeout(function () {
+
+                generateBtn.textContent =
+                    "✨ Generate Resume";
+
+            }, 1500);
+
+        });
 
     }
 
 
-    // ==================================================
+    // ================================
     // PRINT / SAVE PDF
-    // ==================================================
+    // ================================
 
     const downloadBtn =
         document.getElementById("downloadBtn");
 
-
     if (downloadBtn) {
 
-        downloadBtn.addEventListener(
-            "click",
-            function () {
+        downloadBtn.addEventListener("click", function () {
 
-                console.log(
-                    "🖨️ Print / Save PDF clicked"
-                );
+            updateResume();
 
+            window.print();
 
-                updateResume();
-
-
-                // Browser print dialog
-                window.print();
-
-            }
-        );
+        });
 
     }
 
 
-    // ==================================================
-    // INITIAL UPDATE
-    // ==================================================
+    // ================================
+    // START
+    // ================================
 
     updateResume();
 
-
-    console.log(
-        "🚀 Resume Builder is ready!"
-    );
-
-});
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    alert("Resume JavaScript is working!");
-
-    const buttons = document.querySelectorAll("button");
-
-    buttons.forEach(function (button) {
-
-        button.addEventListener("click", function () {
-
-            console.log("Clicked:", button.id || button.textContent);
-
-        });
-
-    });
+    console.log("✅ Resume Builder ready");
 
 });
