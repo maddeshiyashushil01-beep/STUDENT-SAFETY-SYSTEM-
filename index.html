@@ -1,65 +1,172 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>Login - Hostel Guard</title>  
-  <link rel="stylesheet" href="login.css">  
-</head>  
-<body>  <div class="app-container">    <div class="login-card">  <div class="header-box">  
-  <h1>🔐 Secure Gateway</h1>  
-  <p>Hostel Guard Safety System</p>  
-</div>  
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="form-box">  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <h3>Login to Continue</h3>  
+    <title>Login - Hostel Guard</title>
 
-  <form id="loginForm" class="login-form">  
+    <link rel="stylesheet" href="login.css">
+</head>
 
-    <div class="input-group">  
-      <label for="role">Choose Your Role</label>  
-      <select id="role">  
-        <option value="student">🧑‍🎓 Student</option>  
-        <option value="admin">🧑‍🏫 Admin</option>  
-      </select>  
-    </div>  
+<body>
 
-    <div class="input-group">  
-      <label for="username">Email</label>  
-      <input  
-        type="email"  
-        id="username"  
-        placeholder="Enter Email Address"  
-        required  
-      >  
-    </div>  
+<div class="app-container">
 
-    <div class="input-group">  
-      <label for="password">Password</label>  
-      <input  
-        type="password"  
-        id="password"  
-        placeholder="Enter Password"  
-        required  
-      >  
-    </div>  
+    <div class="login-card">
 
-    <button type="submit" class="btn-login">  
-      Access Dashboard  
-    </button>  
+        <!-- HEADER -->
+        <div class="header-box">
 
-  </form>  
+            <h1>🔐 Secure Gateway</h1>
 
-  <p id="errorMsg" class="error-text"></p>  
+            <p>Hostel Guard Safety System</p>
 
-  <div class="create-link">  
-    New Student?  
-    <a href="register.html">  
-      Create Account  
-    </a>  
-  </div>  
+        </div>
+
+
+        <!-- FORM -->
+        <div class="form-box">
+
+            <h3>Login to Continue</h3>
+
+
+            <form
+                id="loginForm"
+                class="login-form"
+            >
+
+                <!-- ROLE -->
+
+                <div class="input-group">
+
+                    <label for="role">
+                        Choose Your Role
+                    </label>
+
+                    <select id="role">
+
+                        <option value="student">
+                            🧑‍🎓 Student
+                        </option>
+
+                        <option value="admin">
+                            🧑‍🏫 Admin
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label for="username">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="username"
+                        placeholder="Enter Email Address"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter Password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="show-password"
+                            aria-label="Show password"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORGOT PASSWORD -->
+
+                <button
+                    type="button"
+                    id="forgotPassword"
+                    class="forgot-password"
+                >
+                    Forgot Password?
+                </button>
+
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                    id="loginBtn"
+                >
+                    Access Dashboard
+                </button>
+
+            </form>
+
+
+            <!-- ERROR / SUCCESS MESSAGE -->
+
+            <p
+                id="errorMsg"
+                class="error-text"
+            ></p>
+
+
+            <!-- CREATE ACCOUNT -->
+
+            <div class="create-link">
+
+                New Student?
+
+                <a href="register.html">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-  </div>  </div>  <script type="module" src="login.js"></script>  </body>  
-</html>  
+
+<script
+    type="module"
+    src="login.js"
+></script>
+
+</body>
+
+</html>
