@@ -1183,3 +1183,22 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    alert("Resume JavaScript is working!");
+
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            console.log("Clicked:", button.id || button.textContent);
+
+        });
+
+    });
+
+});
