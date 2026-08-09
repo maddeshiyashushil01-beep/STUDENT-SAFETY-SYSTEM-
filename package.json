@@ -1,0 +1,16 @@
+{
+  "name": "student-ai-agent-backend",
+  "version": "1.0.0",
+  "description": "Backend for Student Safety System AI Agent",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/genai": "latest",
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest"
+  }
+}
