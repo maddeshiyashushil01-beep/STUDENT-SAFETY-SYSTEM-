@@ -8,33 +8,43 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Gemini AI
+if (!process.env.GEMINI_API_KEY) {
+    console.error("❌ GEMINI_API_KEY is missing");
+}
+
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-// Test route
+// Test backend
 app.get("/", (req, res) => {
     res.json({
-        status: "success",
+        success: true,
         message: "🤖 Student AI Agent Backend is running!"
     });
 });
 
-// AI Chat API
+// AI chat
 app.post("/api/chat", async (req, res) => {
 
     try {
 
-        const { message } = req.body;
+        const message = req.body?.message?.trim();
 
-        if (!message || !message.trim()) {
+        if (!message) {
             return res.status(400).json({
+                success: false,
                 error: "Message is required."
+            });
+        }
+
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({
+                success: false,
+                error: "Gemini API key is not configured."
             });
         }
 
@@ -56,12 +66,9 @@ app.post("/api/chat", async (req, res) => {
             success: false,
             error: "AI response failed."
         });
-
     }
-
 });
 
-// Start server
 app.listen(PORT, () => {
     console.log(`🤖 Student AI Agent running on port ${PORT}`);
 });
