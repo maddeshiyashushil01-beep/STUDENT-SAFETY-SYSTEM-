@@ -2,84 +2,97 @@ const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 const chatMessages = document.getElementById("chatMessages");
 
-
 function addMessage(text, type) {
-
     const message = document.createElement("div");
-
     message.className = `message ${type}`;
 
     if (type === "bot") {
-
         message.innerHTML = `
             <div class="avatar">🤖</div>
-            <div class="bubble">${text}</div>
+            <div class="bubble"></div>
         `;
 
+        message.querySelector(".bubble").textContent = text;
     } else {
-
         message.innerHTML = `
-            <div class="bubble">${text}</div>
+            <div class="bubble"></div>
         `;
 
+        message.querySelector(".bubble").textContent = text;
     }
 
     chatMessages.appendChild(message);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
+    return message;
 }
 
+async function sendMessage() {
 
-function sendMessage() {
-
-    const text =
-        userInput.value.trim();
+    const text = userInput.value.trim();
 
     if (!text) return;
 
     addMessage(text, "user");
 
     userInput.value = "";
+    sendBtn.disabled = true;
 
-    setTimeout(() => {
+    const botMessage = addMessage("Thinking... 🤖", "bot");
 
-        addMessage(
-            "I'm currently being built 🤖. Soon I'll be able to answer your questions using an AI model.",
-            "bot"
-        );
+    try {
 
-    }, 500);
+        const response = await fetch("/api/chat", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: text
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Server error");
+        }
+
+        botMessage.querySelector(".bubble").textContent =
+            data.reply;
+
+    } catch (error) {
+
+        console.error(error);
+
+        botMessage.querySelector(".bubble").textContent =
+            "Sorry, I couldn't connect to my AI backend. 🤖";
+
+    } finally {
+
+        sendBtn.disabled = false;
+        userInput.focus();
+
+    }
 }
 
-
 function quickAsk(text) {
-
     userInput.value = text;
-
     sendMessage();
 }
 
+sendBtn.addEventListener("click", sendMessage);
 
-sendBtn.addEventListener(
-    "click",
-    sendMessage
-);
+userInput.addEventListener("keydown", (event) => {
 
-
-userInput.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (
-            event.key === "Enter" &&
-            !event.shiftKey
-        ) {
-
-            event.preventDefault();
-
-            sendMessage();
-        }
-
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+        event.preventDefault();
+        sendMessage();
     }
-);
+
+});
