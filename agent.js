@@ -89,9 +89,9 @@ async function sendMessage() {
         );
 
         botMessage.querySelector(
-            ".bubble"
-        ).textContent =
-            "Sorry, I couldn't connect to my AI backend. 🤖";
+    ".bubble"
+).textContent =
+    "Backend error: " + error.message;
 
     } finally {
 
