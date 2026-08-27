@@ -164,17 +164,7 @@ res.json({
 
 
 
-        if (!reply) {
-            return res.status(500).json({
-                success: false,
-                error: "No AI response received."
-            });
-        }
-
-        res.json({
-            success: true,
-            reply: reply
-        });
+        
 
     } catch (error) {
 
