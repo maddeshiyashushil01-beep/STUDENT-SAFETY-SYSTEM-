@@ -29,9 +29,7 @@ app.get("/", (req, res) => {
 
 // AI chat
 app.post("/api/chat", async (req, res) => {
-
     try {
-
         const message = req.body?.message?.trim();
 
         if (!message) {
@@ -59,18 +57,14 @@ app.post("/api/chat", async (req, res) => {
         });
 
     } catch (error) {
+        console.error("Gemini Error:", error);
 
-    console.error("========== GEMINI ERROR ==========");
-    console.error("Message:", error?.message);
-    console.error("Status:", error?.status);
-    console.error("Details:", error);
-    console.error("==================================");
-
-    res.status(500).json({
-        success: false,
-        error: "Gemini request failed. Check Render logs."
-    });
-}
+        res.status(500).json({
+            success: false,
+            error: "AI response failed."
+        });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`🤖 Student AI Agent running on port ${PORT}`);
