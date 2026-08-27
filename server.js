@@ -140,7 +140,29 @@ Never make every answer the same length.
         }
 
         const reply =
-            data?.choices?.[0]?.message?.content;
+    data?.choices?.[0]?.message?.content;
+
+if (!reply) {
+    return res.status(500).json({
+        success: false,
+        error: "No AI response received."
+    });
+}
+
+const cleanReply = reply
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*•]\s*/gm, "• ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+res.json({
+    success: true,
+    reply: cleanReply
+});
+
+
 
         if (!reply) {
             return res.status(500).json({
