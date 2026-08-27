@@ -54,11 +54,30 @@ app.post("/api/chat", async (req, res) => {
                     model: "openai/gpt-oss-20b",
 
                     messages: [
-                        {
-                            role: "user",
-                            content: message
-                        }
-                    ]
+    {
+        role: "system",
+        content: `
+You are a helpful student AI assistant.
+
+Give short, clear and direct answers.
+
+Rules:
+- Answer in 3 to 6 short points when possible.
+- Avoid long explanations.
+- Avoid large tables.
+- Avoid unnecessary headings.
+- Do not repeat the question.
+- Use simple English.
+- Give an example when useful.
+- For simple questions, give a simple answer.
+- Maximum about 120 words unless the user specifically asks for a detailed answer.
+`
+    },
+    {
+        role: "user",
+        content: message
+    }
+]
                 })
             }
         );
