@@ -150,13 +150,13 @@ if (!reply) {
 }
 
 const cleanReply = reply
-    .replace(/\*\*(.*?)\*\*/g, "$1")
-    .replace(/__(.*?)__/g, "$1")
-    .replace(/^#{1,6}\s*/gm, "")
-    .replace(/^\s*[-*•]\s*/gm, "• ")
+    .replace(/\*\*/g, "")
+    .replace(/__/g, "")
+    .replace(/^\s*#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .replace(/`{1,3}/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-
 res.json({
     success: true,
     reply: cleanReply
