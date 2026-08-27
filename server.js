@@ -60,14 +60,17 @@ app.post("/api/chat", async (req, res) => {
 
     } catch (error) {
 
-        console.error("Gemini Error:", error);
+    console.error("========== GEMINI ERROR ==========");
+    console.error("Message:", error?.message);
+    console.error("Status:", error?.status);
+    console.error("Details:", error);
+    console.error("==================================");
 
-        res.status(500).json({
-            success: false,
-            error: "AI response failed."
-        });
-    }
-});
+    res.status(500).json({
+        success: false,
+        error: "Gemini request failed. Check Render logs."
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`🤖 Student AI Agent running on port ${PORT}`);
