@@ -295,15 +295,79 @@
     type="module"
     src="script.js"
 ></script>
+<!-- ================================
+     FLOATING AI AGENT
+================================= -->
 
-<!-- Floating AI Agent -->
 <button
-    class="ai-floating-button"
-    onclick="window.location.href='agent.html'"
+    id="aiAgentButton"
+    class="ai-agent-floating"
     aria-label="Open Student AI Agent"
 >
     🤖
 </button>
+
+
+<div
+    id="aiAgentPopup"
+    class="ai-agent-popup"
+>
+
+    <div class="ai-agent-header">
+
+        <div>
+            🤖 Student AI Agent
+        </div>
+
+        <button
+            id="closeAiAgent"
+            class="ai-agent-close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div
+        id="aiAgentMessages"
+        class="ai-agent-messages"
+    >
+
+        <div class="ai-welcome-message">
+
+            Hi! 👋
+
+            <br><br>
+
+            I'm your Student AI Agent.
+            Ask me about studies, coding,
+            projects or anything you need help with.
+
+        </div>
+
+    </div>
+
+
+    <div class="ai-agent-input-area">
+
+        <input
+            type="text"
+            id="aiAgentInput"
+            placeholder="Ask something..."
+            autocomplete="off"
+        >
+
+        <button
+            id="sendAiAgent"
+            class="ai-send-button"
+        >
+            ➤
+        </button>
+
+    </div>
+
+</div>
 
 
 
