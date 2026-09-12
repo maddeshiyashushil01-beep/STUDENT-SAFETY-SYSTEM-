@@ -326,48 +326,47 @@
             ×
         </button>
 
+   <button
+    id="aiAgentButton"
+    class="ai-agent-floating"
+    aria-label="Open Student AI Agent"
+>
+    🤖
+</button>
+
+<div id="aiAgentPopup" class="ai-agent-popup">
+
+    <div class="ai-agent-header">
+        <span>🤖 Student AI Agent</span>
+
+        <button id="closeAiAgent" class="ai-agent-close">
+            ×
+        </button>
     </div>
 
-
-    <div
-        id="aiAgentMessages"
-        class="ai-agent-messages"
-    >
-
-        <div class="ai-welcome-message">
-
-            Hi! 👋
-
-            <br><br>
-
-            I'm your Student AI Agent.
-            Ask me about studies, coding,
-            projects or anything you need help with.
-
+    <div id="aiAgentMessages" class="ai-agent-messages">
+        <div class="ai-message bot-message">
+            Hi! 👋 How can I help you?
         </div>
-
     </div>
-
 
     <div class="ai-agent-input-area">
 
         <input
-            type="text"
             id="aiAgentInput"
+            type="text"
             placeholder="Ask something..."
-            autocomplete="off"
         >
 
-        <button
-            id="sendAiAgent"
-            class="ai-send-button"
-        >
+        <button id="sendAiAgent" class="ai-send-button">
             ➤
         </button>
 
     </div>
 
 </div>
+
+<script src="agent.js"></script>
 
 
 
