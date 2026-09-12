@@ -539,34 +539,160 @@ background:#0d47a1;
 }
 
 
+/* Small floating AI button */
 
-/* ================================
-   FLOATING AI AGENT
-================================ */
-
-.ai-floating-button {
+.ai-agent-floating {
     position: fixed;
+    right: 16px;
+    bottom: 18px;
 
-    right: 18px;
-    bottom: 20px;
-
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
 
     border: none;
     border-radius: 50%;
 
-    background: #ffffff;
+    background: white;
 
-    font-size: 28px;
+    font-size: 27px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 
-    cursor: pointer;
+    z-index: 99999;
+}
+
+
+/* AI popup hidden initially */
+
+.ai-agent-popup {
+    position: fixed;
+
+    right: 12px;
+    bottom: 84px;
+
+    width: calc(100vw - 24px);
+    max-width: 380px;
+    height: 480px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+    display: none;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    z-index: 100000;
+}
+
+
+/* Header */
+
+.ai-agent-header {
+    background: #1976d2;
+    color: white;
+
+    padding: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-weight: bold;
+}
+
+.ai-agent-close {
+    background: transparent;
+    border: none;
+
+    color: white;
+
+    font-size: 25px;
+}
+
+
+/* Messages */
+
+.ai-agent-messages {
+    flex: 1;
+
+    padding: 12px;
+
+    overflow-y: auto;
+
+    background: #f5f7fa;
+}
+
+.ai-message {
+    padding: 10px 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 12px;
+
+    max-width: 85%;
+
+    font-size: 14px;
+}
+
+.bot-message {
+    background: white;
+}
+
+.user-message {
+    background: #1976d2;
+    color: white;
+
+    margin-left: auto;
+}
+
+
+/* Input */
+
+.ai-agent-input-area {
+    display: flex;
+
+    gap: 7px;
+
+    padding: 9px;
+
+    border-top: 1px solid #ddd;
+}
+
+.ai-agent-input-area input {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+}
+
+.ai-send-button {
+    width: 44px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #1976d2;
+
+    color: white;
+
+    font-size: 18px;
+}
 
     z-index: 9999;
 
