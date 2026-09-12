@@ -537,3 +537,42 @@ background:#0d47a1;
     transform: translateY(-2px);
     opacity: 0.95;
 }
+
+
+
+/* ================================
+   FLOATING AI AGENT
+================================ */
+
+.ai-floating-button {
+    position: fixed;
+
+    right: 18px;
+    bottom: 20px;
+
+    width: 58px;
+    height: 58px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    font-size: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+
+    cursor: pointer;
+
+    z-index: 9999;
+
+    transition: transform 0.2s ease;
+}
+
+.ai-floating-button:active {
+    transform: scale(0.92);
+}
