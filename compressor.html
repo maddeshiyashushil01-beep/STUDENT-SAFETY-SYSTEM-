@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Compressor - Student Safety System</title>
+
+    <link rel="stylesheet" href="compressor.css">
+</head>
+
+<body>
+
+    <div class="compressor-container">
+
+        <h1>🖼️ Image Compressor</h1>
+
+        <p>
+            Reduce image size while keeping good quality.
+        </p>
+
+        <div class="upload-box">
+
+            <label for="imageInput">
+                Choose an Image
+            </label>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+            >
+
+        </div>
+
+        <div id="preview"></div>
+
+        <div class="controls">
+
+            <label for="quality">
+                Compression Quality:
+                <span id="qualityValue">70%</span>
+            </label>
+
+            <input
+                type="range"
+                id="quality"
+                min="10"
+                max="100"
+                value="70"
+            >
+
+        </div>
+
+        <button id="compressBtn">
+            Compress Image
+        </button>
+
+        <div id="result"></div>
+
+        <a
+            id="downloadBtn"
+            style="display:none;"
+            download="compressed-image.jpg"
+        >
+            ⬇️ Download Compressed Image
+        </a>
+
+    </div>
+
+    <script src="compressor.js"></script>
+
+</body>
+
+</html>
